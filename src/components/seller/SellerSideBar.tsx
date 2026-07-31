@@ -2,7 +2,7 @@ import { Sidebar, SidebarContent, SidebarTrigger, SidebarGroup } from "@/compone
 import { useAuthStore } from "@/store/authStore";
 import { Link, useLocation } from "react-router"
 import { Button } from "@/components/ui/button"
-
+import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut } from "lucide-react";
 
 export function SellerSideBar() {
     const path = useLocation();
@@ -10,37 +10,56 @@ export function SellerSideBar() {
     const logout = useAuthStore(state => state.logout)
 
     const navLinks = [
-        { to: "/seller", name: "Dashboard", isActive: path.pathname == "/seller" },
-        { to: "orders", name: "Orders", isActive: path.pathname.includes("orders") },
-        { to: "products", name: "Products", isActive: path.pathname.includes("products") },
-        { to: "messages", name: "Messages", isActive: path.pathname.includes("messages") },
+        { to: "/seller", name: "Dashboard", icon: <LayoutDashboard className="h-5 w-5" />, isActive: path.pathname === "/seller" || path.pathname === "/seller/" },
+        { to: "/seller/orders", name: "Orders", icon: <ShoppingCart className="h-5 w-5" />, isActive: path.pathname.includes("orders") },
+        { to: "/seller/products", name: "Products", icon: <Package className="h-5 w-5" />, isActive: path.pathname.includes("products") },
+        { to: "/seller/messages", name: "Messages", icon: <MessageSquare className="h-5 w-5" />, isActive: path.pathname.includes("messages") },
     ]
 
-    return <div>
-        <Sidebar >
-            <SidebarContent className="flex-1 min-h-screen p-2">
-                <div className="flex-1">
-                    <SidebarTrigger />
-                    <div className="p-4 mb-6 border-b border-muted">
-                        <div className="text-lg font-medium capitalize flex items-center gap-2">
-                            Welcome
-                            <span className="text-brand">{user?.username}</span>
+    return (
+        <Sidebar className="border-r border-slate-200 bg-white">
+            <SidebarContent className="flex flex-col h-full py-4">
+                <div className="px-6 pb-6 pt-2">
+                    <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 bg-brand/10 text-brand rounded-xl flex items-center justify-center font-bold text-xl">
+                            {user?.username?.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-sm font-medium text-slate-500">Welcome back</span>
+                            <span className="text-base font-bold text-slate-900 capitalize tracking-tight">{user?.username}</span>
                         </div>
                     </div>
-                    <SidebarGroup>
-                        {navLinks.map((link) => (
-                            <SidebarGroup key={link.to} className={`cursor-pointer transition-all duration-300 hover:bg-primary/5 rounded-md p-2 mb-2 ${link.isActive ? "bg-primary/5 border-l-2 border-l-brand" : ""}`}>
-                                <Link to={link.to}>{link.name}</Link>
-                            </SidebarGroup>
-                        ))}
-
-                    </SidebarGroup>
                 </div>
 
-                <Button onClick={logout} className="self-end w-full bg-brand text-white transition-all duration-300 hover:bg-brand/80 cursor-pointer">
-                    Sign out
-                </Button>
+                <div className="flex-1 px-4 space-y-1">
+                    {navLinks.map((link) => (
+                        <SidebarGroup key={link.to} className="p-0">
+                            <Link 
+                                to={link.to}
+                                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 font-medium text-sm
+                                    ${link.isActive 
+                                        ? "bg-brand/10 text-brand" 
+                                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                                    }`}
+                            >
+                                {link.icon}
+                                {link.name}
+                            </Link>
+                        </SidebarGroup>
+                    ))}
+                </div>
+
+                <div className="p-4 mt-auto">
+                    <Button 
+                        onClick={logout} 
+                        variant="outline"
+                        className="w-full flex items-center justify-center gap-2 border-slate-200 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-colors shadow-sm"
+                    >
+                        <LogOut className="h-4 w-4" />
+                        Sign out
+                    </Button>
+                </div>
             </SidebarContent>
         </Sidebar>
-    </div>
+    );
 }

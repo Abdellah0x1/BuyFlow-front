@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAuthStore } from "../../store/authStore";
 import { useState } from "react";
-import { type LoginPayload } from "../../types/auth";
+import { type LoginPayload } from "../../types";
 import { LoginRequest } from "@/api/auth";
 import { Link } from "react-router";
 import { Spinner } from "../Common/Spinner";

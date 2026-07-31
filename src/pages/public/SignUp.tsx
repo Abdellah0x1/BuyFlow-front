@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, type ChangeEvent } from "react";
-import type { SingUpPayload } from "@/types/auth";
+import type { SingUpPayload } from "@/types";
 import { Spinner } from "@/components/Common/Spinner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { singUpRequest } from "@/api/auth";

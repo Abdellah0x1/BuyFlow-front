@@ -1,5 +1,5 @@
 import api from "./axios";
-import type { LoginPayload, SingUpPayload } from "../types/auth";
+import type { LoginPayload, SingUpPayload } from "../types";
 
 
 
