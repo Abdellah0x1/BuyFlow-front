@@ -17,7 +17,9 @@ export default function HeroBanner() {
     return (
         <section className="max-w-7xl mx-auto flex-grow flex flex-col justify-center relative overflow-hidden border-b border-border">
             <div className="py-12 px-10 sm:py-6 sm:px-4 flex flex-col gap-10">
-                <p className="text-4xl font-semibold text-center">Discover Quality Prodcut From <span className="font-semibold text-brand">Verified Sellers</span></p>
+                <p className="text-5xl font-semibold text-center">Discover Quality Prodcut From
+                    <br />
+                    <span className="font-semibold text-5xl text-brand">Verified Sellers</span></p>
                 <form onSubmit={handleSearch}>
                     <div className="flex items-center gap-2">
                         <Input value={query} className="border border-gray-300 rounded-lg p-6 focus-visible:ring-1 focus-visible:ring-brand" onChange={e => setQuery(e.target.value)} placeholder="Search by product name" />

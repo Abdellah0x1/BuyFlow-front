@@ -58,7 +58,7 @@ export default function SignUp() {
                     password: "",
                     roles: ["user"]
                 })
-                login({ email: signUpData.email, roles: signUpData.roles, username: signUpData.username })
+                login({ email: res.data.email, roles: res.data.roles, username: res.data.username })
                 toast.success("Account created successfully")
                 navigate("/")
             } else if (!res.success && res.error) {

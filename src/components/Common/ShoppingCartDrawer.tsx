@@ -3,7 +3,7 @@
 import * as React from "react"
 import { toast } from "sonner"
 
-import { useMobile } from "@/hooks/useMobile"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"
 import {
     Drawer,
@@ -22,7 +22,7 @@ import { useCartStore } from "@/store/cardStore"
 
 export function ShoppingCartDrawer() {
     const [open, setOpen] = React.useState(false)
-    const { isMobile } = useMobile()
+    const isMobile = useIsMobile()
     const totalItem = useCartStore(state => state.totalItems())
     const items = useCartStore(state => state.items)
     const removeItem = useCartStore(state => state.removeFromCart)

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Hexagon, Menu, X, User } from "lucide-react";
 import LoginModal from "../modals/loginModal";
 import { useAuthStore } from "../../store/authStore";
-import { useMobile } from "@/hooks/useMobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ShoppingCartDrawer } from "../Common/ShoppingCartDrawer";
 import ErrorBoundary from "../Common/ErrorBoundary";
 
@@ -12,10 +12,10 @@ export function Navbar() {
     const { isAuthenticated, user, logout } = useAuthStore();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { isMobile } = useMobile();
+    const isMobile = useIsMobile();
 
 
-
+    console.log("user : ", user)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -72,7 +72,7 @@ export function Navbar() {
                     {!isMobile && (
                         isAuthenticated ? (
                             <div className="flex items-center gap-4 ml-4 border-l pl-4">
-                                <Link to={user?.roles?.includes('ROLE_SELLER') ? "/seller" : "/profile"} className="text-sm font-medium flex items-center gap-2 bg-brand/90 px-2 py-1 rounded-full text-white cursor-pointer hover:bg-brand-light">
+                                <Link to={user?.roles?.includes("ROLE_SELLER") ? "/seller" : "/profile"} className="text-sm font-medium flex items-center gap-2 bg-brand/90 px-2 py-1 rounded-full text-white cursor-pointer hover:bg-brand-light">
                                     <User size={18} />
                                     {user?.username}
                                 </Link>
@@ -100,8 +100,8 @@ export function Navbar() {
                     <hr className="border-gray-100" />
                     {isAuthenticated ? (
                         <div className="flex flex-col gap-4">
-                            <Link to={user?.roles?.includes('ROLE_SELLER') ? "/seller" : "/profile"} className="flex items-center gap-2"><User size={18} /> {user?.username}</Link>
-                            <Button variant="outline" className="w-full justify-center" onClick={logout}>Logout</Button>
+                            <Link to={user?.roles?.includes("ROLE_SELLER") ? " / seller" : " / profile"} className="flex items - center gap - 2"><User size={18} /> {user?.username}</Link>
+                            <Button variant="outline" className="w-full justify-center" onClick={logout} > Logout</Button>
                         </div>
                     ) : (
                         <ErrorBoundary>
@@ -109,7 +109,8 @@ export function Navbar() {
                         </ErrorBoundary>
                     )}
                 </div>
-            )}
-        </header>
+            )
+            }
+        </header >
     );
 }

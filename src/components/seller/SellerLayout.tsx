@@ -15,14 +15,12 @@ export default function SellerLayout() {
 
     //layout for seller dashboard to catain : seller infos , products, charts, orders , payments and stuff 
     return <div>
-        <div>
-            <SidebarProvider>
-                <SidebarTrigger />
-                <SellerSideBar />
-                <main className="w-full flex-1 px-10 py-15 max-w-7xl mx-auto">
-                    <Outlet />
-                </main>
-            </SidebarProvider>
-        </div>
+        <SidebarProvider>
+            <SellerSideBar />
+            <SidebarTrigger />
+            <main className="w-full flex-1 bg-gray-100 px-10 py-15 max-w-7xl mx-auto">
+                <Outlet />
+            </main>
+        </SidebarProvider>
     </div>
 }

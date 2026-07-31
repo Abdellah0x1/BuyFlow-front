@@ -1,7 +1,7 @@
 import api from "./axios";
 
 export type ProductPayload = {
-    name: string,
+    productName: string,
     description: string,
     price: number,
     quantity: number,
@@ -26,7 +26,7 @@ export async function createProduct(
 
     try {
         const res = await api.post(
-            `admin/categories/${categoryId}/products`,
+            `admin/categories/${categoryId}/product`,
             formData
         )
 

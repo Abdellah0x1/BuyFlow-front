@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
 import PublicLayout from './pages/Layouts/PublicLayout'
 import Home from './pages/public/Home'
-import { Login } from './pages/public/Login'
 import SignUp from './pages/public/SignUp'
 import NotFound from './pages/public/NotFound'
 import ForgotPassword from './pages/public/ForgotPassword'
@@ -23,7 +22,6 @@ function App() {
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path='/products' element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetails />} />

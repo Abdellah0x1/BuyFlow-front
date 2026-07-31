@@ -28,6 +28,7 @@ export async function LoginRequest(loginInfo: LoginPayload) {
 export const singUpRequest = async (SingUpPayload: SingUpPayload) => {
     try {
         const res = await api.post(`/auth/signup`, SingUpPayload)
+        console.log("Sign up payload : ", SingUpPayload)
 
         return {
             success: true,
