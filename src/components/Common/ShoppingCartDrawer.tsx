@@ -23,14 +23,19 @@ import { useCartStore } from "@/store/cardStore"
 export function ShoppingCartDrawer() {
     const [open, setOpen] = React.useState(false)
     const isMobile = useIsMobile()
-    const totalItem = useCartStore(state => state.totalItems())
+    const totalItem = useCartStore(state => state.totalItems)
     const items = useCartStore(state => state.items)
-    const removeItem = useCartStore(state => state.removeFromCart)
+    const fetchCart = useCartStore(state => state.fetchCart);
 
     function handleConfirm() {
         setOpen(false)
         toast("Order placed successfully")
     }
+
+    React.useEffect(() => {
+        fetchCart()
+    }, [fetchCart])
+
     return (
         <Drawer
             open={open}
@@ -53,17 +58,18 @@ export function ShoppingCartDrawer() {
                 </DrawerHeader>
                 <div className="flex-1 scroll-fade overflow-y-auto p-4">
                     {items && items.length > 0 ? items.map((item) => (
-                        <div key={item.id} className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <img src={item.image} alt={item.name} className="w-12 h-12" />
-                                <div>
-                                    <h3 className="text-sm font-medium">{item.name}</h3>
-                                    <p className="text-sm text-gray-500">{item.price}</p>
+                        <div key={item.productId} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 w-full bg-gray-100 p-2 rounded-md">
+                                <img src={item.images[0].url} alt={item.productName} className="w-12 h-12 rounded-md" />
+                                <div className="w-full">
+                                    <h3 className="text-sm font-medium line-clamp-1">{item.productName}</h3>
+                                    <p className="text-sm">Qty: {item.quantity}</p>
+                                    <p className="text-sm text-gray-500">{item.price}$</p>
                                 </div>
                             </div>
-                            <Button variant="ghost" size="sm" onClick={() => removeItem(item.id)}>
+                            {/* <Button variant="ghost" size="sm" onClick={() => removeItem(item.id)}>
                                 Remove
-                            </Button>
+                            </Button> */}
                         </div>
                     ))
                         :
@@ -75,7 +81,7 @@ export function ShoppingCartDrawer() {
                 </div>
                 <DrawerFooter>
                     {items.length > 0 && <Button onClick={handleConfirm} className="h-[34px]">
-                        Confirm Delivery Time
+                        Checkout
                     </Button>}
                     <DrawerClose render={<Button variant="outline" className="cursor-pointer">Continue Shopping</Button>} />
                 </DrawerFooter>

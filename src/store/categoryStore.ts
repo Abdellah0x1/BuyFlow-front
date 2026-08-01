@@ -25,7 +25,6 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
 
 
             if (res.success) {
-                // Safely extract the array
                 const data = res.data;
                 const categoriesArray = Array.isArray(data) ? data : (data?.content || data?.data || []);
                 set({ categories: categoriesArray })

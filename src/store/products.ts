@@ -12,7 +12,7 @@ type ProductState = {
     pageSize: number,
     pageNumber: number,
     lastPage: boolean,
-    fetchProducts: (page?: number, sortBy?: string, sortOrder?: "asc" | "desc") => Promise<void>
+    fetchProducts: (page?: number, sortBy?: string, sortOrder?: "asc" | "desc", categoryId?: string) => Promise<void>
 }
 
 
@@ -27,21 +27,21 @@ export const useProductsStore = create<ProductState>((set, get) => ({
     lastPage: true,
 
 
-    fetchProducts: async (page = 0, sortBy = "productId", sortOrder: "asc" | "desc" = "desc") => {
+    fetchProducts: async (page = 0, sortBy = "productId", sortOrder: "asc" | "desc" = "desc", categoryId?: string) => {
         set({ isLoading: true, error: null });
 
         try {
-            const res = await getProducts(sortBy, sortOrder)
+            const res = await getProducts(sortBy, sortOrder, 10, categoryId)
             if (res.success) {
                 set({
-                    products: res.data?.products,
+                    products: res.data,
                     isLoading: false,
                     error: null,
-                    totalPages: res.data?.totalPages,
-                    totalElements: res.data?.totalElements,
-                    pageSize: res.data?.pageSize,
-                    pageNumber: res.data?.pageNumber,
-                    lastPage: res.data?.lastPage
+                    totalPages: res.totalPages,
+                    totalElements: res.totalElements,
+                    pageSize: res.pageSize,
+                    pageNumber: res.pageNumber,
+                    lastPage: res.lastPage
                 })
             }
             else {

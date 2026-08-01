@@ -47,10 +47,11 @@ export async function createProduct(
 
 
 
-export const getProducts = async (sortBy: string, sortOrder: "asc" | "desc", pageSize = 10) => {
+export const getProducts = async (sortBy: string, sortOrder: "asc" | "desc", pageSize = 10, categoryId?: string) => {
     try {
+        const url = categoryId ? `/public/categories/${categoryId}/products` : `/public/products`
         const res = await api.get(
-            `/public/products?sortBy=${sortBy}&sortOrder=${sortOrder}&pageSize=${pageSize}`
+            `${url}?sortBy=${sortBy}&sortOrder=${sortOrder}&pageSize=${pageSize}`
         )
 
         return {
@@ -73,3 +74,19 @@ export const getProducts = async (sortBy: string, sortOrder: "asc" | "desc", pag
     }
 }
 
+export const getProductById = async (id: string | number) => {
+    try {
+        const res = await api.get(`/public/products/${id}`)
+        return {
+            success: true,
+            data: res.data
+        }
+    } catch (error: any) {
+        const validationMessage = error.response?.data.message || "Something went wrong try again"
+        console.error("Error fetching product:", error);
+        return {
+            success: false,
+            error: validationMessage
+        }
+    }
+}
