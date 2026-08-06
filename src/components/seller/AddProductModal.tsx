@@ -98,7 +98,7 @@ export function AddProductModal() {
             } else if (res.error) {
                 toast.error(res.error)
             }
-        } catch (error) {
+        } catch {
             toast.error("Something went wrong")
         } finally {
             setIsSubmitting(false);

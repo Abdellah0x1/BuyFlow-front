@@ -36,7 +36,7 @@ export const useSellerStore = create<SellerState>((set) => ({
             } else {
                 set({ error: res.error, isLoading: false });
             }
-        } catch (error) {
+        } catch {
             set({
                 error: "Failed to fetch seller products",
                 isLoading: false

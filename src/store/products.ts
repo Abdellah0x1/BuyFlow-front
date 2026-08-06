@@ -16,7 +16,7 @@ type ProductState = {
 }
 
 
-export const useProductsStore = create<ProductState>((set, get) => ({
+export const useProductsStore = create<ProductState>((set) => ({
     products: [],
     isLoading: false,
     error: null,
@@ -31,7 +31,7 @@ export const useProductsStore = create<ProductState>((set, get) => ({
         set({ isLoading: true, error: null });
 
         try {
-            const res = await getProducts(sortBy, sortOrder, 10, categoryId)
+            const res = await getProducts(sortBy, sortOrder, page, 10, categoryId)
             if (res.success) {
                 set({
                     products: res.data,
@@ -47,7 +47,7 @@ export const useProductsStore = create<ProductState>((set, get) => ({
             else {
                 set({ error: res.error })
             }
-        } catch (error) {
+        } catch {
             set({
                 error: "Failed to fetch products"
             })

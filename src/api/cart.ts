@@ -1,4 +1,5 @@
 import api from "./axios";
+import { getApiErrorMessage } from "./error";
 
 
 export async function getUserCart() {
@@ -8,8 +9,8 @@ export async function getUserCart() {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const errrorMessage = error?.response?.data?.message || "Couldn't fetch cart details"
+    } catch (error) {
+        const errrorMessage = getApiErrorMessage(error, "Couldn't fetch cart details")
         return {
             success: false,
             error: errrorMessage
@@ -25,8 +26,8 @@ export async function addProductCart(productId: string, quantity: number) {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const errrorMessage = error?.response?.data?.message || "Couldn't add product to cart"
+    } catch (error) {
+        const errrorMessage = getApiErrorMessage(error, "Couldn't add product to cart")
         return {
             success: false,
             error: errrorMessage
@@ -41,8 +42,25 @@ export async function updateCart(productId: string, operation: "add" | "delete")
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const errrorMessage = error?.response?.data?.message || "Couldn't update cart"
+    } catch (error) {
+        const errrorMessage = getApiErrorMessage(error, "Couldn't update cart")
+        return {
+            success: false,
+            error: errrorMessage
+        }
+    }
+}
+
+
+export async function deleteProductFromCart(cartId: string | number, productId: string | number) {
+    try {
+        const res = await api.delete(`/cart/${cartId}/products/${productId}`)
+        return {
+            success: true,
+            data: res.data
+        }
+    } catch (error) {
+        const errrorMessage = getApiErrorMessage(error, "Couldn't delete product from cart")
         return {
             success: false,
             error: errrorMessage

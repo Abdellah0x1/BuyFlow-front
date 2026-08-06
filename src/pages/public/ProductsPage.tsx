@@ -6,11 +6,17 @@ import { useCategoryStore } from "@/store/categoryStore"
 import { useEffect } from "react"
 import { Spinner } from "@/components/Common/Spinner"
 import { useProductsStore } from "@/store/products"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { ProductGallery } from "@/components/products/ProductGallery"
+
 export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams()
     const query = searchParams.get("q")
     const { categories, fetchCategories } = useCategoryStore();
-    const { products, isLoading, pageNumber, totalPages, fetchProducts } = useProductsStore();
+    const { products, isLoading, totalElements, fetchProducts } = useProductsStore();
+    const isMobile = useIsMobile();
+
+
 
     useEffect(() => {
         fetchCategories();
@@ -39,11 +45,11 @@ export default function ProductsPage() {
             {/* Page Header / Breadcrumbs Area */}
             <div className="mb-8 border-b border-b-gray-100 pb-4 ">
                 <h1 className="text-2xl font-semibold">{query ? `Search Results for "${query}"` : "All Products"}</h1>
-                <p className="text-muted-foreground">Showing {pageNumber + 1} of {totalPages}</p>
+                <p className="text-muted-foreground">Showing {products?.length} of {totalElements} Products</p>
             </div>
 
-            <div className="flex gap-8 w-full">
-                <aside className="sticky top-18 w-1/4 border-r border-r-gray-100 pr-10 overflow-y-scroll h-full">
+            <div className={`flex ${isMobile ? "flex-col" : "flex-row"} gap-8 w-full`}>
+                <aside className={`border-r border-r-gray-100 ${isMobile ? "w-full" : "w-1/4 sticky top-18"} pr-10 overflow-y-scroll h-full`}>
                     <form onChange={handleChange}>
                         <div className="space-y-2">
                             <h2 className="text-lg font-semibold">Category</h2>
@@ -66,12 +72,12 @@ export default function ProductsPage() {
 
                 </aside>
 
-                <main className="w-3/4">
+                <main className="w-3/4 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4  gap-10">
                     {isLoading ? <Spinner /> : (
                         products?.map((product) => (
-                            <Link to={`/products/${product.productId}`} key={product.productId} className="flex flex-col max-w-60 gap-4 overflow-hidden border transition-all duration-300 hover:border-brand rounded-md ">
-                                <div>
-                                    <img src={product.images[0].url} alt={product.productName} />
+                            <Link to={`/products/${product.productId}`} key={product.productId} className="col-span-1 flex flex-col  gap-4 min-w-[200px] overflow-hidden border transition-all duration-300 hover:border-brand rounded-md ">
+                                <div className="h-52">
+                                    <img src={product.images[0].url} alt={product.productName} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="p-2">
                                     <h2 className="font-semibold ">{product.productName}</h2>
@@ -82,9 +88,7 @@ export default function ProductsPage() {
                         ))
                     )}
                 </main>
-
             </div>
-
         </div>
     )
 }

@@ -31,7 +31,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
             } else {
                 set({ categories: [] });
             }
-        } catch (error) {
+        } catch {
             set({ categories: [] });
         } finally {
             set({ isLoading: false })

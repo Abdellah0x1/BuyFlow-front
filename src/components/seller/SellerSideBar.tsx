@@ -1,4 +1,4 @@
-import { Sidebar, SidebarContent, SidebarTrigger, SidebarGroup } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/store/authStore";
 import { Link, useLocation } from "react-router"
 import { Button } from "@/components/ui/button"

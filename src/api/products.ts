@@ -1,4 +1,5 @@
 import api from "./axios";
+import { getApiErrorMessage } from "./error";
 
 export type ProductPayload = {
     productName: string,
@@ -34,8 +35,8 @@ export async function createProduct(
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationMessage = error.response?.data.message || "Something went wrong try again"
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Something went wrong try again")
 
         console.error("Error fetching categories:", error);
         return {
@@ -47,11 +48,11 @@ export async function createProduct(
 
 
 
-export const getProducts = async (sortBy: string, sortOrder: "asc" | "desc", pageSize = 10, categoryId?: string) => {
+export const getProducts = async (sortBy: string, sortOrder: "asc" | "desc", pageNumber = 0, pageSize = 10, categoryId?: string) => {
     try {
         const url = categoryId ? `/public/categories/${categoryId}/products` : `/public/products`
         const res = await api.get(
-            `${url}?sortBy=${sortBy}&sortOrder=${sortOrder}&pageSize=${pageSize}`
+            `${url}?sortBy=${sortBy}&sortOrder=${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}`
         )
 
         return {
@@ -63,8 +64,8 @@ export const getProducts = async (sortBy: string, sortOrder: "asc" | "desc", pag
             pageSize: res.data.pageSize,
             lastPage: res.data.lastPage
         }
-    } catch (error: any) {
-        const validationMessage = error.response?.data.message || "Something went wrong try again"
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Something went wrong try again")
 
         console.error("Error fetching categories:", error);
         return {
@@ -81,8 +82,8 @@ export const getProductById = async (id: string | number) => {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationMessage = error.response?.data.message || "Something went wrong try again"
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Something went wrong try again")
         console.error("Error fetching product:", error);
         return {
             success: false,

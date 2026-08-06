@@ -12,13 +12,22 @@ import SellerLayout from './components/seller/SellerLayout'
 import SellerDashboard from './components/seller/SellerDashboard'
 import SellerProductsPage from './components/seller/SellerProductsPage'
 import SellerOrders from './components/seller/SellerOrders'
+import { useEffect } from 'react'
+import { useAuthStore } from './store/authStore'
+import Checkout from './pages/payment/Checkout'
+import PaymentSuccess from './pages/payment/PaymentSuccess'
 
 function App() {
+  const checkAuth = useAuthStore(state => state.checkAuth);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* public routes */}
+
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
@@ -26,9 +35,11 @@ function App() {
           <Route path='/products' element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/profile" element={<ProtectedRoute allowedRoles={["user"]}><Profile /></ProtectedRoute>} />
+          <Route path="/checkout" element={<ProtectedRoute allowedRoles={["user"]}><Checkout /></ProtectedRoute>} />
+          <Route path="/payment/success" element={<ProtectedRoute allowedRoles={["user"]}><PaymentSuccess /></ProtectedRoute>} />
         </Route>
 
-        {/* protected routes */}
+
 
         {/* seller routes */}
         <Route path="/seller" element={<SellerLayout />}>

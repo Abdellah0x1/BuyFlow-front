@@ -44,7 +44,7 @@ const LoginModal = () => {
             } else {
                 setError(res.error || "Login failed");
             }
-        } catch (error) {
+        } catch {
             setError("Something went wrong");
         } finally {
             setIsSubmitting(false);

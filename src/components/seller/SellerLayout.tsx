@@ -1,14 +1,20 @@
 import { useAuthStore } from "@/store/authStore"
-import { Outlet, useNavigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { SellerSideBar } from "./SellerSideBar";
+import { Spinner } from "../Common/Spinner";
 
 export default function SellerLayout() {
     const user = useAuthStore(state => state.user);
-    const navigate = useNavigate();
+    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+    const hasCheckedAuth = useAuthStore(state => state.hasCheckedAuth);
 
-    if (!user?.roles?.includes('ROLE_SELLER') && !user?.roles?.includes("SELLER")) {
-        navigate("/")
+    if (!hasCheckedAuth) {
+        return <div className="flex min-h-screen items-center justify-center"><Spinner /></div>;
+    }
+
+    if (!isAuthenticated || (!user?.roles?.includes('ROLE_SELLER') && !user?.roles?.includes("SELLER"))) {
+        return <Navigate to="/" replace />;
     }
 
     return (

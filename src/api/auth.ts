@@ -1,4 +1,5 @@
 import api from "./axios";
+import { getApiErrorMessage } from "./error";
 import type { LoginPayload, SingUpPayload } from "../types";
 
 
@@ -10,14 +11,8 @@ export async function LoginRequest(loginInfo: LoginPayload) {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationData = error.response?.data
-        let errorMessage = "Can't login Please Try Again !"
-
-
-        if (validationData && validationData.message) {
-            errorMessage = validationData.message
-        }
+    } catch (error) {
+        const errorMessage = getApiErrorMessage(error, "Can't login Please Try Again !")
         return {
             success: false,
             error: errorMessage
@@ -34,15 +29,11 @@ export const singUpRequest = async (SingUpPayload: SingUpPayload) => {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationData = error.response?.data
-        let errorMessage = "Can't Sign Up Please Try Again !"
+    } catch (error) {
+        const errorMessage = getApiErrorMessage(error, "Can't Sign Up Please Try Again !")
 
         console.log("Error sign up request ", error)
 
-        if (validationData && validationData.message) {
-            errorMessage = validationData.message
-        }
         return {
             success: false,
             error: errorMessage
@@ -57,13 +48,8 @@ export async function logoutRequest() {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationData = error.response?.data
-        let errorMessage = "Could not logout Please Try Again !"
-
-        if (validationData && validationData.message) {
-            errorMessage = validationData.message
-        }
+    } catch (error) {
+        const errorMessage = getApiErrorMessage(error, "Could not logout Please Try Again !")
         return {
             success: false,
             error: errorMessage
@@ -78,13 +64,8 @@ export async function getCurrentUser() {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationData = error.response?.data
-        let errorMessage = "Could not get current user Please Try Again !"
-
-        if (validationData && validationData.message) {
-            errorMessage = validationData.message
-        }
+    } catch (error) {
+        const errorMessage = getApiErrorMessage(error, "Could not get current user Please Try Again !")
         return {
             success: false,
             error: errorMessage

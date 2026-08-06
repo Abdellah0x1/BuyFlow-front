@@ -65,7 +65,7 @@ export default function SignUp() {
                 toast.error(res.error)
                 setIsSubmitting(false)
             }
-        } catch (error) {
+        } catch {
             toast.error("Something went wrong please try again")
             setIsSubmitting(false)
         }

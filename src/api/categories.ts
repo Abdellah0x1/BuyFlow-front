@@ -1,4 +1,5 @@
 import api from "./axios"
+import { getApiErrorMessage } from "./error"
 
 
 
@@ -9,8 +10,8 @@ export const getCategories = async () => {
             success: true,
             data: res.data
         }
-    } catch (error: any) {
-        const validationMessage = error.response?.data.message || "Something went wrong try again"
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Something went wrong try again")
 
         console.error("Error fetching categories:", error);
         return {
