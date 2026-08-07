@@ -91,3 +91,24 @@ export const getProductById = async (id: string | number) => {
         }
     }
 }
+
+
+
+export async function searchProductByKeyword(keyword: string) {
+    console.log("--> searchProductByKeyword CALLED with:", keyword);
+    try {
+        const res = await api.get(`/public/products/keyword/${keyword}`)
+        console.log("--> API SUCCESS: Search by keywords was triggered", res)
+        return {
+            success: true,
+            data: res.data.content
+        }
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Something went wrong try again")
+        console.log("--> API ERROR in searchProductByKeyword:", error);
+        return {
+            success: false,
+            error: validationMessage
+        }
+    }
+}
