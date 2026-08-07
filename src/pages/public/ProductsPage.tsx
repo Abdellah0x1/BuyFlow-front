@@ -7,13 +7,13 @@ import { useEffect } from "react"
 import { Spinner } from "@/components/Common/Spinner"
 import { useProductsStore } from "@/store/products"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { ProductGallery } from "@/components/products/ProductGallery"
+import { PaginationBar } from "@/components/Common/PaginatinBar"
 
 export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams()
     const query = searchParams.get("q")
     const { categories, fetchCategories } = useCategoryStore();
-    const { products, isLoading, totalElements, fetchProducts } = useProductsStore();
+    const { products, isLoading, totalElements, fetchProducts, totalPages, pageNumber } = useProductsStore();
     const isMobile = useIsMobile();
 
 
@@ -24,7 +24,8 @@ export default function ProductsPage() {
 
     useEffect(() => {
         const currentCategoryId = searchParams.get("category") || undefined;
-        fetchProducts(0, "productId", "desc", currentCategoryId);
+        const page = searchParams.get("page") || "0";
+        fetchProducts(Number(page), "productId", "desc", currentCategoryId);
     }, [fetchProducts, searchParams]);
 
     function handleChange(e: React.ChangeEvent<HTMLFormElement>) {
@@ -87,6 +88,7 @@ export default function ProductsPage() {
                             </Link>
                         ))
                     )}
+                    <PaginationBar className="col-span-1 md:col-span-4" totalPages={totalPages} currentPage={pageNumber + 1} />
                 </main>
             </div>
         </div>

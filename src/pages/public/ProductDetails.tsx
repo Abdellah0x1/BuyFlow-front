@@ -57,6 +57,7 @@ export default function ProductDetails() {
                                 <button onClick={() => setQuantity((quantity - 1) > 1 ? quantity - 1 : 1)} className="p-1 px-2 rounded-md bg-gray-100 cursor-pointer">-</button>
                             </div>
                             <Button onClick={() => addProductCart(String(id), quantity)} className="rounded-full mt-10 w-24 cursor-pointer bg-brand transition-all duration-300 hover:bg-brand-dark">Add To Cart</Button>
+
                         </div>
 
                     </div>

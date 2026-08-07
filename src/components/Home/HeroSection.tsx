@@ -15,7 +15,7 @@ export default function HeroBanner() {
     };
 
     return (
-        <section className="max-w-7xl mx-auto flex-grow flex flex-col justify-center relative overflow-hidden border-b border-border">
+        <section className="min-h-[70vh] max-w-7xl mx-auto flex-grow flex flex-col justify-center relative overflow-hidden border-b border-border">
             <div className="py-12 px-10 sm:py-6 sm:px-4 flex flex-col gap-10">
                 <p className="text-5xl font-semibold text-center">Discover Quality Prodcut From
                     <br />
