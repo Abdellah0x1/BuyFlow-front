@@ -2,12 +2,12 @@ import { Spinner } from "@/components/Common/Spinner";
 import { useSellerOrders } from "@/hooks/useSellerOrders";
 import type { Order } from "@/types";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -82,14 +82,14 @@ export default function SellerOrders() {
                                     hour: '2-digit',
                                     minute: '2-digit'
                                 });
-                                
+
                                 const getStatusColor = (status: string) => {
                                     const s = status?.toLowerCase() || '';
                                     if (s === 'succeeded' || s === 'completed' || s === 'paid') return 'default';
                                     if (s === 'failed' || s === 'cancelled') return 'destructive';
                                     return 'secondary';
                                 };
-                                
+
                                 return (
                                     <TableRow key={order.orderId} className="hover:bg-muted/10 transition-colors">
                                         <TableCell className="font-medium pl-6">
