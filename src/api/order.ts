@@ -1,4 +1,8 @@
+import type { Product } from "@/types";
 import api from "./axios";
+
+
+
 
 
 export async function createOrder(addressId: number) {

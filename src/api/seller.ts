@@ -16,3 +16,10 @@ export async function getMyProducts() {
         }
     }
 }
+
+
+export async function getSellerOrders() {
+    const res = await api.get("/seller/orders")
+    return res.data
+}
+

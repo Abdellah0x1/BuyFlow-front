@@ -9,13 +9,14 @@ import ProductDetails from './pages/public/ProductDetails'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { Profile } from './pages/public/Profile'
 import SellerLayout from './components/seller/SellerLayout'
-import SellerDashboard from './components/seller/SellerDashboard'
-import SellerProductsPage from './components/seller/SellerProductsPage'
-import SellerOrders from './components/seller/SellerOrders'
+import SellerDashboard from './pages/seller/SellerDashboard'
+import SellerProductsPage from './pages/seller/SellerProductsPage'
+import SellerOrders from './pages/seller/SellerOrders'
 import { useEffect } from 'react'
 import { useAuthStore } from './store/authStore'
 import Checkout from './pages/payment/Checkout'
 import PaymentSuccess from './pages/payment/PaymentSuccess'
+import SellerMessages from './pages/seller/SellerMessages'
 
 function App() {
   const checkAuth = useAuthStore(state => state.checkAuth);
@@ -46,6 +47,7 @@ function App() {
           <Route index element={<SellerDashboard />} />
           <Route path="products" element={<SellerProductsPage />} />
           <Route path="orders" element={<SellerOrders />} />
+          <Route path="messages" element={<SellerMessages />} />
         </Route>
         {/* customer routes */}
 
