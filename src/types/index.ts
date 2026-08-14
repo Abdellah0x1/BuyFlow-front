@@ -54,3 +54,12 @@ export type Order = {
     orderDate: string,
     payment: Payment
 }
+
+
+export type Notification = {
+    id: number,
+    message: string,
+    isRead: Boolean,
+    type: string,
+    createdAt: string
+}

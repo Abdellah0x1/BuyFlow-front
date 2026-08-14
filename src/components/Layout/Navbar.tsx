@@ -55,8 +55,7 @@ export function Navbar() {
                     <div className="flex flex-1 items-center justify-center gap-8 px-8">
                         <nav className="flex gap-6 text-sm font-medium text-gray-600">
                             <Link to="/products" className="hover:text-black transition-colors">Products</Link>
-                            <Link to="/categories" className="hover:text-black transition-colors">Categories</Link>
-                            <Link to="/deals" className="hover:text-black transition-colors">Deals</Link>
+
                         </nav>
                     </div>
                 )}

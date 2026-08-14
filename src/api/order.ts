@@ -1,4 +1,4 @@
-import type { Product } from "@/types";
+
 import api from "./axios";
 
 
