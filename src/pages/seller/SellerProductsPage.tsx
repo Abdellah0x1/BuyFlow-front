@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router";
 
 export default function SellerProductsPage() {
     const { products, isLoading, fetchSellerProducts } = useSellerStore();
@@ -113,7 +114,7 @@ export default function SellerProductsPage() {
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-blue-600">
-                                            <Edit className="h-4 w-4" />
+                                            <Link to={`/seller/products/${product.productId}/edit`}><Edit className="h-4 w-4" /></Link>
                                         </Button>
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive">
                                             <Trash className="h-4 w-4" />

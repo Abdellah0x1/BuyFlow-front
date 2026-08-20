@@ -99,7 +99,7 @@ export function Navbar() {
                     <hr className="border-gray-100" />
                     {isAuthenticated ? (
                         <div className="flex flex-col gap-4">
-                            <Link to={user?.roles?.includes("ROLE_SELLER") ? " / seller" : " / profile"} className="flex items - center gap - 2"><User size={18} /> {user?.username}</Link>
+                            <Link to={user?.roles?.includes("ROLE_SELLER") ? "/seller" : "/profile"} className="flex items-center gap-2"><User size={18} /> {user?.username}</Link>
                             <Button variant="outline" className="w-full justify-center" onClick={logout} > Logout</Button>
                         </div>
                     ) : (

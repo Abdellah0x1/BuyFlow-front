@@ -109,3 +109,21 @@ export async function searchProductByKeyword(keyword: string) {
         }
     }
 }
+
+
+export async function updateProduct(id: string | number, product: ProductPayload) {
+    try {
+        const res = await api.put(`/admin/products/${id}`, product);
+        return {
+            success: true,
+            data: res.data
+        }
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Something went wrong try again")
+        console.error("Error updating product:", error);
+        return {
+            success: false,
+            error: validationMessage
+        }
+    }
+}

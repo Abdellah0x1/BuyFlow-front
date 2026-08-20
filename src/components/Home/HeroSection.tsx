@@ -59,62 +59,64 @@ export default function HeroBanner() {
     };
 
     return (
-        <section className="min-h-[70vh] max-w-7xl mx-auto flex-grow flex flex-col justify-center relative overflow-hidden border-b border-border">
-            <div className="py-12 px-10 sm:py-6 sm:px-4 flex flex-col gap-10">
-                <p className="text-5xl font-semibold text-center">Discover Quality Products From
-                    <br />
-                    <span className="font-semibold text-5xl text-brand">Verified Sellers</span></p>
+        <div className="bg-gradient-to-r from-zinc-50 via-zinc-100 to-brand-200">
+            <section className="min-h-[70vh] max-w-6xl mx-auto flex-grow flex flex-col justify-center relative overflow-hidden border-b border-border">
+                <div className="py-12 px-10 sm:py-6 sm:px-4 flex flex-col gap-10">
+                    <p className="text-5xl font-semibold text-center">Discover Quality Products From
+                        <br />
+                        <span className="font-semibold text-5xl text-brand">Verified Sellers</span></p>
 
-                <div className="relative w-full" ref={dropdownRef}>
-                    <form onSubmit={handleSearch}>
-                        <div className="flex items-center gap-2">
-                            <Input
-                                value={query}
-                                className="border border-gray-300 rounded-lg p-6 focus-visible:ring-1 focus-visible:ring-brand"
-                                onChange={e => setQuery(e.target.value)}
-                                onFocus={() => {
-                                    if (query.trim() && results.length > 0) setShowDropdown(true);
-                                }}
-                                placeholder="Search by product name"
-                            />
-                            <Button type="submit" className="text-white bg-brand hover:bg-brand-dark p-6 px-5 transition-all duration-300 cursor-pointer">Search</Button>
-                        </div>
-                    </form>
+                    <div className="relative w-full" ref={dropdownRef}>
+                        <form onSubmit={handleSearch}>
+                            <div className="flex items-center gap-2">
+                                <Input
+                                    value={query}
+                                    className="border border-gray-300 rounded-lg p-6 focus-visible:ring-1 focus-visible:ring-brand"
+                                    onChange={e => setQuery(e.target.value)}
+                                    onFocus={() => {
+                                        if (query.trim() && results.length > 0) setShowDropdown(true);
+                                    }}
+                                    placeholder="Search by product name"
+                                />
+                                <Button type="submit" className="text-white bg-brand hover:bg-brand-dark p-6 px-5 transition-all duration-300 cursor-pointer">Search</Button>
+                            </div>
+                        </form>
 
-                    {/* Live Search Results Dropdown */}
-                    {showDropdown && query.trim() && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
-                            {isSearching ? (
-                                <div className="p-4 text-center text-muted-foreground">Searching...</div>
-                            ) : results.length > 0 ? (
-                                <ul className="flex flex-col">
-                                    {results.map((product) => (
-                                        <li key={product.productId} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
-                                            <Link
-                                                to={`/products/${product.productId}`}
-                                                className="flex items-center gap-4 p-3"
-                                                onClick={() => setShowDropdown(false)}
-                                            >
-                                                {product.images && product.images.length > 0 ? (
-                                                    <img src={product.images[0].url} alt={product.productName} className="w-12 h-12 object-cover rounded" />
-                                                ) : (
-                                                    <div className="w-12 h-12 bg-gray-200 rounded flex-shrink-0" />
-                                                )}
-                                                <div className="flex flex-col overflow-hidden">
-                                                    <span className="font-medium truncate">{product.productName}</span>
-                                                    <span className="text-sm text-red-400 font-semibold">${product.price}</span>
-                                                </div>
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <div className="p-4 text-center text-muted-foreground">No products found.</div>
-                            )}
-                        </div>
-                    )}
+                        {/* Live Search Results Dropdown */}
+                        {showDropdown && query.trim() && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+                                {isSearching ? (
+                                    <div className="p-4 text-center text-muted-foreground">Searching...</div>
+                                ) : results.length > 0 ? (
+                                    <ul className="flex flex-col">
+                                        {results.map((product) => (
+                                            <li key={product.productId} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                                                <Link
+                                                    to={`/products/${product.productId}`}
+                                                    className="flex items-center gap-4 p-3"
+                                                    onClick={() => setShowDropdown(false)}
+                                                >
+                                                    {product.images && product.images.length > 0 ? (
+                                                        <img src={product.images[0].url} alt={product.productName} className="w-12 h-12 object-cover rounded" />
+                                                    ) : (
+                                                        <div className="w-12 h-12 bg-gray-200 rounded flex-shrink-0" />
+                                                    )}
+                                                    <div className="flex flex-col overflow-hidden">
+                                                        <span className="font-medium truncate">{product.productName}</span>
+                                                        <span className="text-sm text-red-400 font-semibold">${product.price}</span>
+                                                    </div>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <div className="p-4 text-center text-muted-foreground">No products found.</div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     );
 }

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { type Product } from "@/types";
 import { Spinner } from "@/components/Common/Spinner";
 import { Button } from "@/components/ui/button";
-import { addProductCart } from "@/api/cart";
+import { useCartStore } from "@/store/cardStore";
 import { ProductGallery } from "@/components/products/ProductGallery";
 
 export default function ProductDetails() {
@@ -15,6 +15,7 @@ export default function ProductDetails() {
     const [quantity, setQuantity] = useState(1);
 
     const [error, setError] = useState<string | null>(null);
+    const addToCart = useCartStore(state => state.addToCart);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -56,7 +57,7 @@ export default function ProductDetails() {
                                 <span>{quantity}</span>
                                 <button onClick={() => setQuantity((quantity - 1) > 1 ? quantity - 1 : 1)} className="p-1 px-2 rounded-md bg-gray-100 cursor-pointer">-</button>
                             </div>
-                            <Button onClick={() => addProductCart(String(id), quantity)} className="rounded-full mt-10 w-24 cursor-pointer bg-brand transition-all duration-300 hover:bg-brand-dark">Add To Cart</Button>
+                            <Button onClick={() => addToCart(String(id), quantity)} className="rounded-full mt-10 w-24 cursor-pointer bg-brand transition-all duration-300 hover:bg-brand-dark">Add To Cart</Button>
 
                         </div>
 
