@@ -56,7 +56,7 @@ export function EditProduct() {
         <Link to="/seller/products" className="flex gap-2 text-gray-400">
             <ArrowLeft /> Back button
         </Link>
-        <form className="bg-white rounded-xl p-8 border border-gray-200 mx-auto mt-8 mb-12">
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl p-8 border border-gray-200 mx-auto mt-8 mb-12">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-semibold mb-8 text-brand">Edit Product</h1>
                 <Button onClick={() => setIsEditing(!isEditing)} className="bg-brand text-white cursor-pointer">{isEditing ? "Save" : "Edit"}</Button>
@@ -83,6 +83,10 @@ export function EditProduct() {
                     <div className="space-y-2">
                         <Label>Product Discount :</Label>
                         <Input type="number" onChange={e => setFormData({ ...formData, discount: e.target.value })} disabled={!isEditing} defaultValue={product?.discount} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Product SpecialPrice :</Label>
+                        <Input type="number" onChange={e => setFormData({ ...formData, specialPrice: e.target.value })} disabled={!isEditing} defaultValue={product?.specialPrice} />
                     </div>
                 </div>
             </div>
