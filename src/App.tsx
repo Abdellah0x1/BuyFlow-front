@@ -6,6 +6,7 @@ import SignUp from './pages/public/SignUp'
 import NotFound from './pages/public/NotFound'
 import ForgotPassword from './pages/public/ForgotPassword'
 import ProductsPage from './pages/public/ProductsPage'
+import About from './pages/public/About'
 import ProductDetails from './pages/public/ProductDetails'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import { Profile } from './pages/user/Profile'
@@ -38,6 +39,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path='/products' element={<ProductsPage />} />
+          <Route path='/about' element={<About />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<ProtectedRoute allowedRoles={["user"]}><Checkout /></ProtectedRoute>} />
           <Route path="/payment/success" element={<ProtectedRoute allowedRoles={["user"]}><PaymentSuccess /></ProtectedRoute>} />

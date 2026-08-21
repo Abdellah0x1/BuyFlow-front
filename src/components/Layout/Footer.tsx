@@ -1,4 +1,5 @@
 import { Send, MapPin, Phone, Mail } from 'lucide-react';
+import { Link } from 'react-router';
 
 interface IconProps {
   size?: number;
@@ -22,46 +23,55 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-zinc-950 text-zinc-300 py-16 border-t border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-canvas-parchment border-t border-hairline py-16">
+      <div className="max-w-[980px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
           {/* Brand & About */}
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              BuyFlow<span className="text-blue-500">.</span>
+          <div className="space-y-5">
+            <h2 className="text-tagline text-ink">
+              BuyFlow<span className="text-brand">.</span>
             </h2>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              Elevating your shopping experience with premium products, seamless transactions, and unparalleled customer service. Your journey to exceptional quality starts here.
+            <p className="text-caption-apple text-ink-muted-48 leading-relaxed">
+              Elevating your shopping experience with premium products, seamless transactions, and unparalleled customer service.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="p-2 bg-zinc-900 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300 group">
-                <Facebook size={18} className="group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="p-2 bg-zinc-900 rounded-full hover:bg-blue-400 hover:text-white transition-all duration-300 group">
-                <Twitter size={18} className="group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="p-2 bg-zinc-900 rounded-full hover:bg-pink-600 hover:text-white transition-all duration-300 group">
-                <Instagram size={18} className="group-hover:scale-110 transition-transform" />
-              </a>
-              <a href="#" className="p-2 bg-zinc-900 rounded-full hover:bg-blue-700 hover:text-white transition-all duration-300 group">
-                <Linkedin size={18} className="group-hover:scale-110 transition-transform" />
-              </a>
+            <div className="flex space-x-3">
+              {[
+                { Icon: Facebook, label: "Facebook" },
+                { Icon: Twitter, label: "Twitter" },
+                { Icon: Instagram, label: "Instagram" },
+                { Icon: Linkedin, label: "LinkedIn" },
+              ].map(({ Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className="p-2 rounded-full text-ink-muted-48 hover:text-brand transition-colors duration-200"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6 relative inline-block">
+            <h3 className="text-caption-strong text-ink-muted-80 mb-5">
               Quick Links
-              <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-blue-500 rounded-full"></span>
             </h3>
-            <ul className="space-y-3 text-sm">
-              {['Home', 'Shop Collections', 'About Us', 'Contact', 'Blog', 'FAQs'].map((item) => (
-                <li key={item}>
-                  <a href="#" className="hover:text-white hover:translate-x-1 inline-block transition-all duration-300">
-                    {item}
-                  </a>
+            <ul className="space-y-0">
+              {[
+                { label: 'Home', to: '/' },
+                { label: 'Products', to: '/products' },
+                { label: 'About Us', to: '/about' },
+              ].map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.to}
+                    className="text-dense-link text-ink-muted-48 hover:text-brand transition-colors duration-200"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -69,14 +79,16 @@ export function Footer() {
 
           {/* Customer Service */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6 relative inline-block">
+            <h3 className="text-caption-strong text-ink-muted-80 mb-5">
               Customer Support
-              <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-blue-500 rounded-full"></span>
             </h3>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-0">
               {['Track Order', 'Returns & Refunds', 'Shipping Policy', 'Privacy Policy', 'Terms of Service'].map((item) => (
                 <li key={item}>
-                  <a href="#" className="hover:text-white hover:translate-x-1 inline-block transition-all duration-300">
+                  <a
+                    href="#"
+                    className="text-dense-link text-ink-muted-48 hover:text-brand transition-colors duration-200"
+                  >
                     {item}
                   </a>
                 </li>
@@ -86,38 +98,37 @@ export function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-6 relative inline-block">
+            <h3 className="text-caption-strong text-ink-muted-80 mb-5">
               Newsletter
-              <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-blue-500 rounded-full"></span>
             </h3>
-            <p className="text-sm text-zinc-400 mb-4">
-              Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.
+            <p className="text-caption-apple text-ink-muted-48 mb-4">
+              Subscribe for special offers and updates.
             </p>
             <form className="relative flex items-center" onSubmit={(e) => e.preventDefault()}>
-              <Mail className="absolute left-3 text-zinc-500" size={18} />
+              <Mail className="absolute left-4 text-ink-muted-48" size={16} />
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-full py-3 pl-10 pr-12 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-white border border-hairline rounded-full py-3 pl-10 pr-12 text-caption-apple text-ink placeholder:text-ink-muted-48 focus:outline-none focus:border-brand transition-colors"
                 required
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 bg-blue-600 hover:bg-blue-500 rounded-full text-white transition-colors group"
+                className="absolute right-1.5 p-2 bg-brand hover:bg-brand-light rounded-full text-white transition-colors active-scale"
                 aria-label="Subscribe"
               >
-                <Send size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <Send size={14} />
               </button>
             </form>
 
-            <div className="mt-6 space-y-3">
-              <div className="flex items-center space-x-3 text-sm text-zinc-400">
-                <Phone size={16} className="text-blue-500" />
+            <div className="mt-5 space-y-3">
+              <div className="flex items-center space-x-3 text-caption-apple text-ink-muted-48">
+                <Phone size={14} className="text-brand" />
                 <span>+212 619230516</span>
               </div>
-              <div className="flex items-center space-x-3 text-sm text-zinc-400">
-                <MapPin size={16} className="text-blue-500" />
-                <span>Meknes , marjane 2 N257</span>
+              <div className="flex items-center space-x-3 text-caption-apple text-ink-muted-48">
+                <MapPin size={14} className="text-brand" />
+                <span>Meknes, Marjane 2 N257</span>
               </div>
             </div>
           </div>
@@ -125,11 +136,10 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-zinc-500">
+        <div className="mt-12 pt-5 border-t border-hairline">
+          <p className="text-fine-print text-ink-muted-48 text-center">
             &copy; {currentYear} BuyFlow. All rights reserved.
           </p>
-
         </div>
       </div>
     </footer>

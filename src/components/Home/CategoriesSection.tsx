@@ -12,26 +12,31 @@ const categories = [
 
 export default function CategoriesSection() {
     return (
-        <section className="max-w-7xl mx-auto w-full py-12 px-4 sm:px-10 border-b border-border">
-            <h2 className="text-2xl font-semibold mb-8 text-foreground text-center sm:text-left">Shop by Category</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                {categories.map((category) => {
-                    const Icon = category.icon;
-                    return (
-                        <Link
-                            key={category.name}
-                            to={category.path}
-                            className="flex flex-col items-center justify-center p-6 gap-3 rounded-xl border border-border bg-background hover:border-brand hover:shadow-sm transition-all duration-300 group"
-                        >
-                            <div className="p-3 rounded-full bg-brand/10 text-brand group-hover:bg-brand group-hover:text-white transition-colors duration-300">
-                                <Icon size={28} strokeWidth={1.5} />
-                            </div>
-                            <span className="font-medium text-sm text-foreground group-hover:text-brand transition-colors duration-300">
-                                {category.name}
-                            </span>
-                        </Link>
-                    );
-                })}
+        <section className="bg-canvas-parchment py-[80px] px-6 sm:px-4">
+            <div className="max-w-[980px] mx-auto">
+                <div className="text-center mb-12">
+                    <h2 className="text-display-md text-ink">Shop by Category</h2>
+                    <p className="text-body-apple text-ink-muted-48 mt-3">Browse our curated collections</p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    {categories.map((category) => {
+                        const Icon = category.icon;
+                        return (
+                            <Link
+                                key={category.name}
+                                to={category.path}
+                                className="group flex flex-col items-center justify-center p-6 gap-4 rounded-[18px] border border-hairline bg-canvas hover:border-brand/40 transition-all duration-200 active-scale"
+                            >
+                                <div className="p-3 rounded-[11px] bg-canvas-parchment text-ink-muted-48 group-hover:bg-brand group-hover:text-white transition-all duration-200">
+                                    <Icon size={24} strokeWidth={1.5} />
+                                </div>
+                                <span className="text-caption-apple text-ink-muted-80 group-hover:text-ink transition-colors duration-200">
+                                    {category.name}
+                                </span>
+                            </Link>
+                        );
+                    })}
+                </div>
             </div>
         </section>
     );

@@ -15,7 +15,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 
-import { ShoppingBag, ShoppingCart } from "lucide-react"
+import { ShoppingBag, ShoppingCart, X } from "lucide-react"
 import { useCartStore } from "@/store/cardStore"
 import { useAuthStore } from "@/store/authStore"
 import { Link } from "react-router"
@@ -48,52 +48,70 @@ export function ShoppingCartDrawer() {
             showSwipeHandle={isMobile}
             swipeDirection={isMobile ? "down" : "right"}
         >
-            <DrawerTrigger render={<Button variant="secondary" className="relative text-gray-600 hover:text-black">
-                <ShoppingCart size={22} />
-                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
-                    {totalItem}
-                </span>
-            </Button>} />
-            <DrawerContent className="bg-white">
+            <DrawerTrigger render={<button className="relative text-white/80 hover:text-white transition-colors">
+                <ShoppingCart size={18} />
+                {totalItem > 0 && (
+                    <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand text-[10px] font-semibold text-white">
+                        {totalItem}
+                    </span>
+                )}
+            </button>} />
+            <DrawerContent className="bg-canvas">
                 <DrawerHeader>
-                    <DrawerTitle className="text-center ">Cart Items</DrawerTitle>
-                    <DrawerDescription>
-                        Add items to your cart from our products
+                    <DrawerTitle className="text-tagline text-ink text-center">Your Cart</DrawerTitle>
+                    <DrawerDescription className="text-caption-apple text-ink-muted-48 text-center">
+                        Review your items before checkout
                     </DrawerDescription>
                 </DrawerHeader>
-                <div className="flex-1 scroll-fade overflow-y-auto p-4 ">
+                <div className="flex-1 overflow-y-auto p-4">
                     {items && items.length > 0 ? items.map((item) => (
-                        <div key={item.productId} className="relative flex items-center mt-3 border border-gray-200 rounded-md justify-between ">
-                            <div className="flex items-center gap-2 w-full bg-gray-100 p-2 rounded-md">
-                                <img src={item.images[0].url} alt={item.productName} className="w-12 h-12 rounded-md" />
-                                <div className="w-full">
-                                    <h3 className="text-sm font-medium line-clamp-1">{item.productName}</h3>
-                                    <p className="text-sm">Qty: {item.quantity}</p>
-                                    <p className="text-sm text-gray-500">{item.price}$</p>
+                        <div key={item.productId} className="relative flex items-center mt-3 border border-hairline rounded-[18px] bg-canvas p-3">
+                            <div className="flex items-center gap-3 w-full">
+                                <img src={item.images[0].url} alt={item.productName} className="w-14 h-14 rounded-[8px] object-cover border border-divider-soft" />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="text-body-strong text-ink line-clamp-1">{item.productName}</h3>
+                                    <p className="text-caption-apple text-ink-muted-48">Qty: {item.quantity}</p>
+                                    <p className="text-caption-apple text-brand font-semibold">${item.price}</p>
                                 </div>
-                                <Button onClick={() => deleteFromCart(String(cartId), item.productId)} className="absolute top-1 right-1 cursor-pointer bg-transparent text-red-400 shadow-none transition-all duration-300 hover:text-red hover:bg-red-100">
-                                    x
-                                </Button>
+                                <button
+                                    onClick={() => deleteFromCart(String(cartId), item.productId)}
+                                    className="p-1.5 rounded-full text-ink-muted-48 hover:text-red-500 hover:bg-red-50 transition-colors active-scale"
+                                >
+                                    <X size={16} />
+                                </button>
                             </div>
-
                         </div>
                     ))
                         :
-                        <div className="flex flex-col items-center justify-center h-full">
-                            <ShoppingBag className="h-24 w-24 text-gray-400" />
-                            <h1 className="text-xl font-semibold">Add Products to your cart</h1>
+                        <div className="flex flex-col items-center justify-center h-full py-12 gap-3">
+                            <ShoppingBag className="h-16 w-16 text-ink-muted-48/40" strokeWidth={1} />
+                            <p className="text-body-apple text-ink-muted-48">Your cart is empty</p>
                         </div>
                     }
-                    <div className="text-right mt-4 text-2xl">
-                        Total Price :
-                        <span className="font-bold">{totalPrice}$</span>
-                    </div>
+                    {items && items.length > 0 && (
+                        <div className="text-right mt-6 pt-4 border-t border-divider-soft">
+                            <span className="text-body-apple text-ink-muted-48">Total: </span>
+                            <span className="text-tagline text-ink">${totalPrice}</span>
+                        </div>
+                    )}
                 </div>
                 <DrawerFooter>
-                    {items.length > 0 && <Link to="/checkout" className=" bg-brand hover:bg-brand/80 text-white flex items-center justify-center font-medium rounded-md h-[34px]">
-                        Checkout
-                    </Link>}
-                    <DrawerClose render={<Button variant="outline" className="cursor-pointer">Continue Shopping</Button>} />
+                    {items.length > 0 && (
+                        <Link
+                            to="/checkout"
+                            className="bg-brand hover:bg-brand-light text-white text-body-apple font-medium flex items-center justify-center rounded-full h-11 transition-all duration-200 active-scale"
+                        >
+                            Checkout
+                        </Link>
+                    )}
+                    <DrawerClose render={
+                        <Button
+                            variant="outline"
+                            className="rounded-full h-11 border-brand text-brand hover:bg-brand/5 text-body-apple font-normal cursor-pointer"
+                        >
+                            Continue Shopping
+                        </Button>
+                    } />
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>

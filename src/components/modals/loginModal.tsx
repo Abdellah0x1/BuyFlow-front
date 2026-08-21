@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Dialog } from "radix-ui";
 import { X } from "lucide-react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAuthStore } from "../../store/authStore";
 import { useState } from "react";
@@ -54,25 +53,25 @@ const LoginModal = () => {
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
-                <Button variant="ghost" className="text-sm font-medium text-gray-700 hover:text-brand hover:bg-brand/10 transition-colors">
+                <button className="text-nav-link text-white/80 hover:text-white transition-colors">
                     Login
-                </Button>
+                </button>
             </Dialog.Trigger>
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 animate-in fade-in" />
-                <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl p-8 w-[90vw] max-w-md z-50 animate-in fade-in zoom-in-95 duration-200 border border-gray-100">
+                <Dialog.Overlay className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 animate-in fade-in" />
+                <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-canvas rounded-[18px] border border-hairline p-8 w-[90vw] max-w-md z-50 animate-in fade-in zoom-in-95 duration-200">
 
-                    <Dialog.Title className="text-2xl font-bold text-gray-900 mb-2">Welcome back</Dialog.Title>
-                    <Dialog.Description className="text-gray-500 mb-6 text-sm">
+                    <Dialog.Title className="text-tagline text-ink">Welcome back</Dialog.Title>
+                    <Dialog.Description className="text-caption-apple text-ink-muted-48 mt-1 mb-6">
                         Enter your credentials to access your account.
                     </Dialog.Description>
 
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         {error &&
-                            <div className="w-full bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-2 rounded-md">{error}</div>
+                            <div className="w-full bg-red-50 border border-red-200 text-red-600 px-4 py-2.5 rounded-[11px] text-caption-apple">{error}</div>
                         }
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-700" htmlFor="email">Email</label>
+                            <label className="text-caption-strong text-ink-muted-80" htmlFor="email">Email</label>
                             <Input
                                 type="text"
                                 id="email"
@@ -80,28 +79,40 @@ const LoginModal = () => {
                                 required
                                 value={loginData.email}
                                 onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                                className="rounded-[11px] border-hairline h-11 text-body-apple text-ink placeholder:text-ink-muted-48 focus-visible:ring-1 focus-visible:ring-brand/40 focus-visible:border-brand/30"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-700" htmlFor="password">Password</label>
+                            <label className="text-caption-strong text-ink-muted-80" htmlFor="password">Password</label>
                             <Input
                                 type="password"
                                 id="password"
                                 required
                                 value={loginData.password}
                                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                                className="rounded-[11px] border-hairline h-11 text-body-apple text-ink focus-visible:ring-1 focus-visible:ring-brand/40 focus-visible:border-brand/30"
                             />
                         </div>
-                        <Link to="/forgot-password" onClick={() => setOpen(false)} className="text-brand text-sm flex justify-end">Forgot your password ?</Link>
-                        <Button disabled={isSubmitting} type="submit" className="w-full bg-brand text-white hover:bg-brand-light mt-4 text-md py-6 rounded-xl">
+                        <Link to="/forgot-password" onClick={() => setOpen(false)} className="text-caption-apple text-brand hover:text-brand-light flex justify-end transition-colors">Forgot your password?</Link>
+                        <button
+                            disabled={isSubmitting}
+                            type="submit"
+                            className="w-full bg-brand hover:bg-brand-light text-white text-body-apple rounded-full h-11 mt-2 transition-all duration-200 active-scale disabled:opacity-50"
+                        >
                             {isSubmitting ? <Spinner /> : "Log in"}
-                        </Button>
-                        <Link to="/signup" onClick={() => setOpen(false)} className="bg-gray-200 text-center rounded-xl py-3">Sign Up </Link>
+                        </button>
+                        <Link
+                            to="/signup"
+                            onClick={() => setOpen(false)}
+                            className="text-body-apple text-brand text-center hover:text-brand-light transition-colors"
+                        >
+                            Create an account
+                        </Link>
                     </form>
 
                     <Dialog.Close asChild>
-                        <button className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-100" aria-label="Close">
-                            <X className="w-5 h-5" />
+                        <button className="absolute top-4 right-4 text-ink-muted-48 hover:text-ink transition-colors p-1.5 rounded-full hover:bg-canvas-parchment" aria-label="Close">
+                            <X className="w-4 h-4" />
                         </button>
                     </Dialog.Close>
                 </Dialog.Content>

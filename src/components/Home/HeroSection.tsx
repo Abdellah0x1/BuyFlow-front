@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router";
 import { searchProductByKeyword } from "@/api/products";
 import type { Product } from "@/types";
+import { Search, ArrowRight, ShieldCheck, Truck, Star } from "lucide-react";
 
 export default function HeroBanner() {
     const [query, setQuery] = useState("");
@@ -27,7 +27,6 @@ export default function HeroBanner() {
 
     // Debounce search query
     useEffect(() => {
-        console.log("--> query changed:", query);
         if (!query.trim()) {
             setResults([]);
             setShowDropdown(false);
@@ -35,7 +34,6 @@ export default function HeroBanner() {
         }
 
         const timer = setTimeout(async () => {
-            console.log("--> debounce finished, calling API...");
             setIsSearching(true);
             setShowDropdown(true);
             const res = await searchProductByKeyword(query.trim());
@@ -45,7 +43,7 @@ export default function HeroBanner() {
                 setResults([]);
             }
             setIsSearching(false);
-        }, 300); // 300ms delay
+        }, 300);
 
         return () => clearTimeout(timer);
     }, [query]);
@@ -59,61 +57,110 @@ export default function HeroBanner() {
     };
 
     return (
-        <div className="bg-gradient-to-r from-zinc-50 via-zinc-100 to-brand-200">
-            <section className="min-h-[70vh] max-w-6xl mx-auto flex-grow flex flex-col justify-center relative overflow-hidden border-b border-border">
-                <div className="py-12 px-10 sm:py-6 sm:px-4 flex flex-col gap-10">
-                    <p className="text-5xl font-semibold text-center">Discover Quality Products From
-                        <br />
-                        <span className="font-semibold text-5xl text-brand">Verified Sellers</span></p>
+        <div className="bg-canvas">
+            <section className="relative min-h-[70vh] max-w-[980px] mx-auto flex flex-col justify-center items-center px-6 sm:px-4">
+                <div className="py-[80px] sm:py-[60px] flex flex-col items-center gap-6 w-full">
 
-                    <div className="relative w-full" ref={dropdownRef}>
+                    {/* Badge */}
+                    <div
+                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-hairline text-caption-apple text-ink-muted-48 animate-[fadeInUp_0.5s_ease-out]"
+                    >
+                        Trusted Marketplace
+                    </div>
+
+                    {/* Headline */}
+                    <div className="text-center space-y-4 animate-[fadeInUp_0.6s_ease-out]">
+                        <h1 className="text-hero-display text-ink max-[640px]:text-[34px] max-[640px]:leading-[1.15] max-[1068px]:text-display-lg">
+                            Discover Quality Products
+                            <br />
+                            <span className="text-brand">
+                                From Verified Sellers
+                            </span>
+                        </h1>
+                        <p className="text-body-apple text-ink-muted-48 max-w-2xl mx-auto">
+                            Curated collections, seamless shopping, and trusted sellers — all in one place.
+                        </p>
+                    </div>
+
+                    {/* Search */}
+                    <div className="relative w-full max-w-2xl animate-[fadeInUp_0.7s_ease-out]" ref={dropdownRef}>
                         <form onSubmit={handleSearch}>
-                            <div className="flex items-center gap-2">
+                            <div className="relative flex items-center">
+                                <Search className="absolute left-5 text-ink-muted-48" size={18} />
                                 <Input
                                     value={query}
-                                    className="border border-gray-300 rounded-lg p-6 focus-visible:ring-1 focus-visible:ring-brand"
+                                    className="w-full border border-hairline bg-canvas rounded-full h-11 pl-12 pr-28 text-body-apple text-ink placeholder:text-ink-muted-48 focus-visible:ring-1 focus-visible:ring-brand/40 focus-visible:border-brand/30 transition-all duration-200"
                                     onChange={e => setQuery(e.target.value)}
                                     onFocus={() => {
                                         if (query.trim() && results.length > 0) setShowDropdown(true);
                                     }}
-                                    placeholder="Search by product name"
+                                    placeholder="Search products..."
                                 />
-                                <Button type="submit" className="text-white bg-brand hover:bg-brand-dark p-6 px-5 transition-all duration-300 cursor-pointer">Search</Button>
+                                <button
+                                    type="submit"
+                                    className="absolute right-1.5 bg-brand hover:bg-brand-light text-white rounded-full px-5 py-2 text-caption-apple font-medium transition-all duration-200 active-scale flex items-center gap-1.5"
+                                >
+                                    Search
+                                    <ArrowRight size={14} />
+                                </button>
                             </div>
                         </form>
 
                         {/* Live Search Results Dropdown */}
                         {showDropdown && query.trim() && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-canvas border border-hairline rounded-[18px] shadow-product z-50 max-h-96 overflow-y-auto">
                                 {isSearching ? (
-                                    <div className="p-4 text-center text-muted-foreground">Searching...</div>
+                                    <div className="p-5 text-center text-ink-muted-48 text-caption-apple">
+                                        <div className="inline-flex items-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-brand/30 border-t-brand rounded-full animate-spin" />
+                                            Searching...
+                                        </div>
+                                    </div>
                                 ) : results.length > 0 ? (
-                                    <ul className="flex flex-col">
+                                    <ul className="flex flex-col py-1">
                                         {results.map((product) => (
-                                            <li key={product.productId} className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                                            <li key={product.productId} className="border-b border-divider-soft last:border-0">
                                                 <Link
                                                     to={`/products/${product.productId}`}
-                                                    className="flex items-center gap-4 p-3"
+                                                    className="flex items-center gap-4 px-4 py-3 hover:bg-canvas-parchment transition-colors duration-150"
                                                     onClick={() => setShowDropdown(false)}
                                                 >
                                                     {product.images && product.images.length > 0 ? (
-                                                        <img src={product.images[0].url} alt={product.productName} className="w-12 h-12 object-cover rounded" />
+                                                        <img src={product.images[0].url} alt={product.productName} className="w-11 h-11 object-cover rounded-[8px] border border-hairline" />
                                                     ) : (
-                                                        <div className="w-12 h-12 bg-gray-200 rounded flex-shrink-0" />
+                                                        <div className="w-11 h-11 bg-canvas-parchment rounded-[8px] flex-shrink-0" />
                                                     )}
-                                                    <div className="flex flex-col overflow-hidden">
-                                                        <span className="font-medium truncate">{product.productName}</span>
-                                                        <span className="text-sm text-red-400 font-semibold">${product.price}</span>
+                                                    <div className="flex flex-col overflow-hidden min-w-0">
+                                                        <span className="text-body-strong truncate text-ink">{product.productName}</span>
+                                                        <span className="text-caption-apple text-brand font-semibold">${product.price}</span>
                                                     </div>
                                                 </Link>
                                             </li>
                                         ))}
                                     </ul>
                                 ) : (
-                                    <div className="p-4 text-center text-muted-foreground">No products found.</div>
+                                    <div className="p-5 text-center text-ink-muted-48 text-caption-apple">No products found.</div>
                                 )}
                             </div>
                         )}
+                    </div>
+
+                    {/* Trust indicators */}
+                    <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 pt-2 animate-[fadeInUp_0.8s_ease-out]">
+                        <div className="flex items-center gap-2 text-ink-muted-48 text-caption-apple">
+                            <ShieldCheck size={15} />
+                            <span>Verified Sellers</span>
+                        </div>
+                        <div className="w-px h-3.5 bg-hairline hidden sm:block" />
+                        <div className="flex items-center gap-2 text-ink-muted-48 text-caption-apple">
+                            <Truck size={15} />
+                            <span>Fast Delivery</span>
+                        </div>
+                        <div className="w-px h-3.5 bg-hairline hidden sm:block" />
+                        <div className="flex items-center gap-2 text-ink-muted-48 text-caption-apple">
+                            <Star size={15} />
+                            <span>Top Rated</span>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -27,8 +27,8 @@ export function ProductGallery({ images }: ProductGalleryProps) {
                             key={i}
                             onClick={() => setIndex(i)}
                             className={cn(
-                                "relative flex-shrink-0 w-16 md:w-full aspect-square rounded-md overflow-hidden border-2 transition-all",
-                                i === index ? "border-brand" : "border-border hover:border-brand/50"
+                                "relative flex-shrink-0 w-16 md:w-full aspect-square rounded-[8px] overflow-hidden border-2 transition-all duration-200 active-scale",
+                                i === index ? "border-brand" : "border-hairline hover:border-brand/40"
                             )}
                         >
                             <img
@@ -42,11 +42,11 @@ export function ProductGallery({ images }: ProductGalleryProps) {
             )}
 
             {/* Main image */}
-            <div className="flex-1 relative aspect-[4/5] w-full  rounded-xl overflow-hidden bg-muted">
+            <div className="flex-1 relative aspect-[4/5] w-full rounded-[18px] overflow-hidden bg-canvas-parchment">
                 <img
                     src={images[index].src}
                     alt={images[index].alt ?? "Main view"}
-                    className="w-full h-full object-cover max-h-fit"
+                    className="w-full h-full object-cover shadow-product"
                 />
             </div>
         </div>

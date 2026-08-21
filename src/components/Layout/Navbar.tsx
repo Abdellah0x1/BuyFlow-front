@@ -10,75 +10,71 @@ import ErrorBoundary from "../Common/ErrorBoundary";
 
 export function Navbar() {
     const { isAuthenticated, user, logout } = useAuthStore();
-    const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const isMobile = useIsMobile();
 
-
-    console.log("user : ", user)
-
+    // Close mobile menu on route change / resize
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        const close = () => setIsMobileMenuOpen(false);
+        window.addEventListener("resize", close);
+        return () => window.removeEventListener("resize", close);
     }, []);
 
-    // Helper to determine navbar background style based on scroll
-    const navBackground = isScrolled
-        ? "bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100"
-        : "bg-transparent";
-
     return (
-        <header className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-gray-300 ${navBackground}`}>
-            <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        <header className="sticky top-0 left-0 right-0 z-50 bg-surface-black">
+            <div className="mx-auto flex h-11 items-center justify-between px-4 sm:px-6 lg:px-8 max-w-[1440px]">
 
-                {/* 1. Left side: Mobile Menu Toggle & Logo */}
+                {/* Left: Mobile toggle + Logo */}
                 <div className="flex items-center gap-4">
                     {isMobile && (
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-gray-600 hover:text-black"
+                            className="text-white/80 hover:text-white transition-colors"
                         >
-                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                         </button>
                     )}
-                    <Link to="/" className="flex items-center gap-2 text-xl font-bold tracking-tight ">
-                        <Hexagon className="h-6 w-6 text-brand " />
-                        <span className="hidden sm:block text-brand">BuyFlow</span>
+                    <Link to="/" className="flex items-center gap-2 text-white">
+                        <Hexagon className="h-5 w-5" />
+                        <span className="hidden sm:block text-nav-link font-medium tracking-tight">BuyFlow</span>
                     </Link>
                 </div>
 
-                {/* 2. Middle: Desktop Navigation & Search */}
+                {/* Center: Desktop nav links */}
                 {!isMobile && (
-                    <div className="flex flex-1 items-center justify-center gap-8 px-8">
-                        <nav className="flex gap-6 text-sm font-medium text-gray-600">
-                            <Link to="/products" className="hover:text-black transition-colors">Products</Link>
-
-                        </nav>
-                    </div>
+                    <nav className="flex items-center gap-6">
+                        <Link to="/products" className="text-nav-link text-white/80 hover:text-white transition-colors">
+                            Products
+                        </Link>
+                        <Link to="/about" className="text-nav-link text-white/80 hover:text-white transition-colors">
+                            About
+                        </Link>
+                    </nav>
                 )}
 
-                {/* 3. Right side: Actions (Cart, Profile) */}
-                <div className="flex items-center gap-4">
-
-                    {/* <Link to={isAuthenticated ? "/cart" : "/login"} className="relative text-gray-600 hover:text-black">
-                        
-                    </Link> */}
+                {/* Right: Cart + User actions */}
+                <div className="flex items-center gap-3">
                     <ShoppingCartDrawer />
 
                     {!isMobile && (
                         isAuthenticated ? (
-                            <div className="flex items-center gap-4 ml-4 border-l pl-4">
-                                <Link to={user?.roles?.includes("ROLE_SELLER") ? "/seller" : "/profile"} className="text-sm font-medium flex items-center gap-2 bg-brand/90 px-2 py-1 rounded-full text-white cursor-pointer hover:bg-brand-light">
-                                    <User size={18} />
+                            <div className="flex items-center gap-3 ml-2 pl-3 border-l border-white/15">
+                                <Link
+                                    to={user?.roles?.includes("ROLE_SELLER") ? "/seller" : "/profile"}
+                                    className="text-nav-link font-medium flex items-center gap-1.5 text-white/90 hover:text-white transition-colors"
+                                >
+                                    <User size={14} />
                                     {user?.username}
                                 </Link>
-                                <Button variant="ghost" size="sm" onClick={logout}>Logout</Button>
+                                <button
+                                    onClick={logout}
+                                    className="text-nav-link text-white/60 hover:text-white transition-colors"
+                                >
+                                    Logout
+                                </button>
                             </div>
                         ) : (
-                            <div className="ml-4 border-l pl-4">
+                            <div className="ml-2 pl-3 border-l border-white/15">
                                 <ErrorBoundary>
                                     <LoginModal />
                                 </ErrorBoundary>
@@ -88,19 +84,41 @@ export function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile Dropdown Menu */}
+            {/* Mobile Dropdown */}
             {isMobile && isMobileMenuOpen && (
-                <div className="absolute left-0 top-16 w-full bg-white border-b shadow-lg p-4 flex flex-col gap-4">
-                    <nav className="flex flex-col gap-4 text-base font-medium text-gray-700">
-                        <Link to="/products" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
-                        <Link to="/categories" onClick={() => setIsMobileMenuOpen(false)}>Categories</Link>
-                        <Link to="/deals" onClick={() => setIsMobileMenuOpen(false)}>Deals</Link>
+                <div className="absolute left-0 top-11 w-full bg-surface-black border-t border-white/10 p-5 flex flex-col gap-4 animate-[fadeInUp_0.15s_ease-out]">
+                    <nav className="flex flex-col gap-4">
+                        <Link
+                            to="/products"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="text-body-apple text-white/80 hover:text-white transition-colors"
+                        >
+                            Products
+                        </Link>
+                        <Link
+                            to="/about"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="text-body-apple text-white/80 hover:text-white transition-colors"
+                        >
+                            About
+                        </Link>
                     </nav>
-                    <hr className="border-gray-100" />
+                    <div className="h-px bg-white/10" />
                     {isAuthenticated ? (
-                        <div className="flex flex-col gap-4">
-                            <Link to={user?.roles?.includes("ROLE_SELLER") ? "/seller" : "/profile"} className="flex items-center gap-2"><User size={18} /> {user?.username}</Link>
-                            <Button variant="outline" className="w-full justify-center" onClick={logout} > Logout</Button>
+                        <div className="flex flex-col gap-3">
+                            <Link
+                                to={user?.roles?.includes("ROLE_SELLER") ? "/seller" : "/profile"}
+                                className="flex items-center gap-2 text-white/90"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                <User size={16} /> {user?.username}
+                            </Link>
+                            <button
+                                onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                                className="text-left text-white/60 hover:text-white text-sm transition-colors"
+                            >
+                                Logout
+                            </button>
                         </div>
                     ) : (
                         <ErrorBoundary>
@@ -108,8 +126,7 @@ export function Navbar() {
                         </ErrorBoundary>
                     )}
                 </div>
-            )
-            }
-        </header >
+            )}
+        </header>
     );
 }
