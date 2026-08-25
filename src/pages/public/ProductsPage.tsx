@@ -2,11 +2,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Link, useSearchParams } from "react-router"
 import { useCategoryStore } from "@/store/categoryStore"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Spinner } from "@/components/Common/Spinner"
 import { useProductsStore } from "@/store/products"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { PaginationBar } from "@/components/Common/PaginatinBar"
+import { Input } from "@/components/ui/input"
 
 export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -14,6 +15,9 @@ export default function ProductsPage() {
     const { categories, fetchCategories } = useCategoryStore();
     const { products, isLoading, totalElements, fetchProducts, totalPages, pageNumber } = useProductsStore();
     const isMobile = useIsMobile();
+
+    const [minPrice, setMinPrice] = useState(1)
+    const [maxPrice, setMaxPrice] = useState(700)
 
 
 
@@ -36,6 +40,16 @@ export default function ProductsPage() {
             newParams.set("category", target.value);
         }
 
+        if (target.name === "minPrice") {
+            setMinPrice(Number(target.value));
+            newParams.set("minPrice", target.value);
+        }
+
+        if (target.name === "maxPrice") {
+            setMaxPrice(Number(target.value));
+            newParams.set("maxPrice", target.value);
+        }
+
         setSearchParams(newParams);
     }
 
@@ -51,8 +65,8 @@ export default function ProductsPage() {
             <div className={`flex ${isMobile ? "flex-col" : "flex-row"} gap-10 w-full`}>
                 {/* Sidebar */}
                 <aside className={`${isMobile ? "w-full" : "w-[220px] sticky top-14 self-start"} shrink-0`}>
-                    <div className="rounded-[18px] border border-hairline bg-canvas p-6">
-                        <form onChange={handleChange}>
+                    <div className="rounded-[18px] border border-hairline bg-canvas p-6 ">
+                        <form onChange={handleChange} className="space-y-4">
                             <div className="space-y-3">
                                 <h2 className="text-body-strong text-ink mb-4">Category</h2>
                                 <RadioGroup name="category">
@@ -70,6 +84,15 @@ export default function ProductsPage() {
                                     }
                                 </RadioGroup>
                             </div>
+                            <div className="space-y-3">
+                                <h2 className="text-body-strong text-ink mb-4">Price Range</h2>
+                                <div className="flex items-center gap-2">
+                                    <span>$</span>
+                                    <Input name="minPrice" defaultValue={minPrice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMinPrice(Number(e.target.value))} type="number" placeholder="Min" className="w-full" />
+                                    <span>$</span>
+                                    <Input name="maxPrice" defaultValue={maxPrice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMaxPrice(Number(e.target.value))} type="number" placeholder="Max" className="w-full" />
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </aside>
@@ -81,7 +104,13 @@ export default function ProductsPage() {
                             <Spinner />
                         </div>
                     ) : (
-                        products?.map((product) => (
+                        products?.filter(product => {
+                            const price = product.price || 0;
+                            const min = minPrice || 0;
+                            const max = maxPrice || Infinity;
+
+                            return price >= min && price <= max;
+                        }).map((product) => (
                             <Link
                                 to={`/products/${product.productId}`}
                                 key={product.productId}
@@ -106,7 +135,7 @@ export default function ProductsPage() {
                     )}
                     <PaginationBar className="col-span-full mt-8" totalPages={totalPages} currentPage={pageNumber + 1} />
                 </main>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
