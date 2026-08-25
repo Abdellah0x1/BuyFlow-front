@@ -1,4 +1,4 @@
-import { getUserAddresses, createAddress, type Address } from "@/api/address";
+import { getUserAddresses, createAddress, type Address, updateAddress } from "@/api/address";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUserAddresses = () => {
@@ -23,3 +23,15 @@ export const useCreateAddress = () => {
         },
     });
 };
+
+
+export const useUpdateAddress = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, address }: { id: string, address: Address }) => updateAddress(id, address),
+        onSuccess: (res) => {
+            if (res.success) queryClient.invalidateQueries({ queryKey: ["user-addresses"] })
+
+        }
+    })
+}

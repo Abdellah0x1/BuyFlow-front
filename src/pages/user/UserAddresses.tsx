@@ -1,5 +1,5 @@
 import { Spinner } from "@/components/Common/Spinner";
-import { useCreateAddress, useUserAddresses } from "@/hooks/useUserAddresses";
+import { useCreateAddress, useUserAddresses, useUpdateAddress } from "@/hooks/useUserAddresses";
 import { Home, Pencil, X, Check } from "lucide-react";
 import type { Address } from "@/api/address";
 import { useState } from "react";
@@ -16,7 +16,6 @@ export default function UserAddresses() {
         zipcode: "",
         country: "",
     });
-    const [localAddresses, setLocalAddresses] = useState<Address[] | null>(null);
     const [createAddress, setCreateAddress] = useState<boolean>(false);
     const [createForm, setCreateForm] = useState<Address>({
         street: "",
@@ -26,18 +25,13 @@ export default function UserAddresses() {
         country: "",
     })
     const createAddressMutation = useCreateAddress();
-
-    // Use localAddresses if we've made edits, otherwise use fetched data
-    const displayAddresses = localAddresses ?? addresses;
-
-    // Sync fetched addresses into local state on first load
-    if (addresses && !localAddresses) {
-        setLocalAddresses(addresses);
-    }
+    const updateAddressMutation = useUpdateAddress();
 
     const handleEdit = (index: number, address: Address) => {
         setEditIndex(index);
         setEditForm({ ...address });
+
+
     };
 
     const handleCancel = () => {
@@ -46,11 +40,19 @@ export default function UserAddresses() {
     };
 
     const handleSave = () => {
-        if (editIndex === null || !localAddresses) return;
-        const updated = [...localAddresses];
-        updated[editIndex] = { ...editForm };
-        setLocalAddresses(updated);
-        setEditIndex(null);
+        if (editIndex === null || !addresses) return;
+        const addressToUpdate = addresses[editIndex];
+        if (!addressToUpdate?.addressId) return;
+
+        updateAddressMutation.mutate({ id: String(addressToUpdate.addressId), address: editForm }, {
+            onSuccess: () => {
+                toast.success("Address updated successfully")
+                handleCancel()
+            },
+            onError: (error) => {
+                toast.error(error.message)
+            }
+        })
     };
 
     const handleChange = (field: keyof Address, value: string) => {
@@ -104,7 +106,7 @@ export default function UserAddresses() {
                     </div>
                 )}
 
-                {displayAddresses && displayAddresses.length === 0 && !error && !createAddress && (
+                {addresses && addresses.length === 0 && !error && !createAddress && (
                     <div className="flex flex-col items-center justify-center text-center">
                         <div className="rounded-2xl bg-slate-100 p-5 mb-4">
                             <Home className="h-12 w-12 text-slate-400" />
@@ -116,9 +118,9 @@ export default function UserAddresses() {
                     </div>
                 )}
 
-                {displayAddresses && displayAddresses.length > 0 && (
+                {addresses && addresses.length > 0 && (
                     <div className="w-full space-y-3">
-                        {displayAddresses.map((address: Address, index: number) => (
+                        {addresses.map((address: Address, index: number) => (
                             <div key={index} className="p-4 bg-gray-50 w-full rounded-md">
                                 {editIndex === index ? (
                                     /* ---- Edit Mode ---- */

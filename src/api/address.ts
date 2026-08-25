@@ -2,6 +2,7 @@ import api from "./axios"
 
 
 export type Address = {
+    addressId?: number,
     street: string,
     city: string,
     state: string,
