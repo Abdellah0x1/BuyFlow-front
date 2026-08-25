@@ -1,9 +1,10 @@
 import { Spinner } from "@/components/Common/Spinner";
-import { useUserAddresses } from "@/hooks/useUserAddresses";
+import { useCreateAddress, useUserAddresses } from "@/hooks/useUserAddresses";
 import { Home, Pencil, X, Check } from "lucide-react";
 import type { Address } from "@/api/address";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function UserAddresses() {
     const { data: addresses, isLoading, error } = useUserAddresses();
@@ -16,6 +17,15 @@ export default function UserAddresses() {
         country: "",
     });
     const [localAddresses, setLocalAddresses] = useState<Address[] | null>(null);
+    const [createAddress, setCreateAddress] = useState<boolean>(false);
+    const [createForm, setCreateForm] = useState<Address>({
+        street: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        country: "",
+    })
+    const createAddressMutation = useCreateAddress();
 
     // Use localAddresses if we've made edits, otherwise use fetched data
     const displayAddresses = localAddresses ?? addresses;
@@ -47,6 +57,26 @@ export default function UserAddresses() {
         setEditForm((prev) => ({ ...prev, [field]: value }));
     };
 
+    function handleCreateAddress(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        createAddressMutation.mutate(createForm, {
+            onSuccess: () => {
+                setCreateAddress(false);
+                setCreateForm({
+                    street: "",
+                    city: "",
+                    state: "",
+                    zipcode: "",
+                    country: "",
+                })
+                toast.success("Address added successfully")
+            },
+            onError: (error) => {
+                toast.error("Failed to add address")
+            }
+        })
+    }
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -59,7 +89,7 @@ export default function UserAddresses() {
 
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
-            <div className="flex flex-col gap-6  items-center min-h-[30vh]">
+            <div className="flex flex-col items-stretch gap-6  items-center min-h-[30vh]">
                 {isLoading && <Spinner />}
 
                 {error && (
@@ -74,7 +104,7 @@ export default function UserAddresses() {
                     </div>
                 )}
 
-                {displayAddresses && displayAddresses.length === 0 && !error && (
+                {displayAddresses && displayAddresses.length === 0 && !error && !createAddress && (
                     <div className="flex flex-col items-center justify-center text-center">
                         <div className="rounded-2xl bg-slate-100 p-5 mb-4">
                             <Home className="h-12 w-12 text-slate-400" />
@@ -190,7 +220,63 @@ export default function UserAddresses() {
                         ))}
                     </div>
                 )}
-                <Button className="w-full cursor-pointer "> Add new address </Button>
+                {!createAddress && <Button className="w-full cursor-pointer" onClick={() => setCreateAddress(true)}> Add new address </Button>}
+                {createAddress && <div className="flex flex-col items-stretch gap-5">
+                    <form className="space-y-3" onSubmit={e => handleCreateAddress(e)}>
+                        <div className="flex flex-col gap-1 items-stretch">
+                            <label className="text-xs font-semibold text-slate-600">Street</label>
+                            <input
+                                type="text"
+                                value={createForm.street}
+                                onChange={(e) => setCreateForm({ ...createForm, street: e.target.value })}
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-slate-600">City</label>
+                            <input
+                                type="text"
+                                value={createForm.city}
+                                onChange={(e) => setCreateForm({ ...createForm, city: e.target.value })}
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-slate-600">State</label>
+                            <input
+                                type="text"
+                                value={createForm.state}
+                                onChange={(e) => setCreateForm({ ...createForm, state: e.target.value })}
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-slate-600">Zipcode</label>
+                            <input
+                                type="text"
+                                value={createForm.zipcode}
+                                onChange={(e) => setCreateForm({ ...createForm, zipcode: e.target.value })}
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className="text-xs font-semibold text-slate-600">Country</label>
+                            <input
+                                type="text"
+                                value={createForm.country}
+                                onChange={(e) => setCreateForm({ ...createForm, country: e.target.value })}
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            />
+                        </div>
+                        <div className="flex gap-4">
+                            <Button className="w-1/2 cursor-pointer bg-gray-300 text-gray-700 transition-all hover:bg-gray-400 hover:text-gray-800" onClick={() => setCreateAddress(false)}> cancel </Button>
+                            <Button className="w-1/2 cursor-pointer" type="submit"> create </Button>
+                        </div>
+                    </form>
+
+
+                </div>
+                }
             </div>
         </div>
     );

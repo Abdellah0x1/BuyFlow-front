@@ -40,9 +40,9 @@ export default function SellerLayout() {
                         <SidebarTrigger className="text-slate-500 hover:text-slate-900" />
                         <div>
                             <DropdownMenu>
-                                <DropdownMenuTrigger >
+                                <DropdownMenuTrigger>
                                     {unreadCount > 0 && (
-                                        <span className="absolute top-0 right-0 bg-red-600 text-white rounded-full px-2 py-1 text-xs">
+                                        <span className="absolute top-2 right-2 bg-red-600 text-white rounded-full px-1  text-xs">
                                             {unreadCount}
                                         </span>
                                     )}
@@ -52,9 +52,10 @@ export default function SellerLayout() {
                                     <DropdownMenuGroup className="flex flex-col gap-2 justify-center">
                                         <DropdownMenuLabel className="text-center">Notifications</DropdownMenuLabel>
                                         {unreadCount > 0 && <Button variant={"ghost"} className="text-xs justify-end bg-none hover:bg-transparent text-end text-brand cursor-pointer" onClick={() => markAllRead()}>Read All</Button>}
-                                        {notifications.length > 0 ? notifications.map(notif => <DropdownMenuLabel key={notif.id}>
+                                        {notifications.length > 0 ? notifications.map(notif => <DropdownMenuLabel key={notif.id} className="p-2 border-b border-gray-200">
                                             {notif.message}
-                                        </DropdownMenuLabel>) : <p className="text-muted-foreground">No notifications found</p>}
+                                            <span className="block font-bold text-xs text-end"> {new Date(notif.createdAt).toLocaleDateString()}</span>
+                                        </DropdownMenuLabel>) : <p className=" text-muted-foreground">No notifications found</p>}
 
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>

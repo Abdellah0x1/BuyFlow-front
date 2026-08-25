@@ -63,11 +63,9 @@ export default function ProfileLayout() {
             </div>
 
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
-                {/* User greeting */}
+
                 <div className="mb-8 flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white font-bold text-lg shadow-md shadow-brand/20">
-                        {user?.username?.charAt(0).toUpperCase()}
-                    </div>
+
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
                             Welcome, <span className="text-brand">{user?.username}</span>

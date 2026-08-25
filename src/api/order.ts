@@ -1,5 +1,25 @@
+import type { Payment, Product } from "@/types";
 import api from "./axios";
 
+
+export type Order = {
+    orderId: number,
+    email: string,
+    orderItems: OrderItem[],
+    orderDate: string,
+    payment: Payment,
+    totalAmount: number,
+    orderStatus: string,
+    addressId: number
+}
+
+export type OrderItem = {
+    orderItemId: number,
+    product: Product,
+    quantity: number,
+    discount: number,
+    orderedProductPrice: number
+}
 
 export async function createOrder(addressId: number) {
 
