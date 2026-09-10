@@ -74,7 +74,7 @@ export default function UserAddresses() {
                 toast.success("Address added successfully")
             },
             onError: (error) => {
-                toast.error("Failed to add address")
+                toast.error("Failed to add address : " + error.message)
             }
         })
     }

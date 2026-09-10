@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { Hexagon, Menu, X, User } from "lucide-react";
 import LoginModal from "../modals/loginModal";
