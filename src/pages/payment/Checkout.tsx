@@ -168,7 +168,7 @@ export default function Checkout() {
             <div className="space-y-4">
                 {items.map((item) => (
                     <div key={item.productId} className="flex items-center gap-4">
-                        <img src={item.images[0].url} alt={item.productName} className="w-16 h-16 rounded-md" />
+                        <img src={item.images?.[0]?.url || "https://placehold.co/64x64?text=No+Image"} alt={item.productName} className="w-16 h-16 rounded-md" />
                         <div className="flex-1">
                             <h3 className="font-medium">{item.productName}</h3>
                             <p className="text-gray-600">Qty: {item.quantity}</p>

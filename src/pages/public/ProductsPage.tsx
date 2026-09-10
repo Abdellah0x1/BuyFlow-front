@@ -119,7 +119,7 @@ export default function ProductsPage() {
                                 {/* Product Image */}
                                 <div className="aspect-square bg-canvas-parchment overflow-hidden">
                                     <img
-                                        src={product.images[0].url}
+                                        src={product.images?.[0]?.url || "https://placehold.co/400x400?text=No+Image"}
                                         alt={product.productName}
                                         className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                                     />

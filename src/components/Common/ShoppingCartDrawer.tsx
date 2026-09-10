@@ -67,7 +67,7 @@ export function ShoppingCartDrawer() {
                     {items && items.length > 0 ? items.map((item) => (
                         <div key={item.productId} className="relative flex items-center mt-3 border border-hairline rounded-[18px] bg-canvas p-3">
                             <div className="flex items-center gap-3 w-full">
-                                <img src={item.images[0].url} alt={item.productName} className="w-14 h-14 rounded-[8px] object-cover border border-divider-soft" />
+                                <img src={item.images?.[0]?.url || "https://placehold.co/56x56?text=No+Image"} alt={item.productName} className="w-14 h-14 rounded-[8px] object-cover border border-divider-soft" />
                                 <div className="flex-1 min-w-0">
                                     <h3 className="text-body-strong text-ink line-clamp-1">{item.productName}</h3>
                                     <p className="text-caption-apple text-ink-muted-48">Qty: {item.quantity}</p>
