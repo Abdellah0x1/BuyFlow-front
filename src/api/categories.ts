@@ -5,7 +5,7 @@ import { getApiErrorMessage } from "./error"
 
 export const getCategories = async () => {
     try {
-        const res = await api.get(`${import.meta.env.VITE_BACKEND_URL}/public/categories`)
+        const res = await api.get(`/public/categories`)
         return {
             success: true,
             data: res.data
