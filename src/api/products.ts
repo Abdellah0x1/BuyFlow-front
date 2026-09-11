@@ -127,3 +127,42 @@ export async function updateProduct(id: string | number, product: ProductPayload
         }
     }
 }
+
+export async function uploadProductImages(productId: string | number, images: File[]) {
+    const formData = new FormData();
+    images.forEach(file => {
+        formData.append("images", file);
+    });
+
+    try {
+        const res = await api.post(`/admin/products/${productId}/images`, formData);
+        return {
+            success: true,
+            data: res.data
+        }
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Failed to upload images")
+        console.error("Error uploading images:", error);
+        return {
+            success: false,
+            error: validationMessage
+        }
+    }
+}
+
+export async function deleteProductImage(productId: string | number, imageId: number) {
+    try {
+        const res = await api.delete(`/admin/products/${productId}/images/${imageId}`);
+        return {
+            success: true,
+            data: res.data
+        }
+    } catch (error) {
+        const validationMessage = getApiErrorMessage(error, "Failed to delete image")
+        console.error("Error deleting image:", error);
+        return {
+            success: false,
+            error: validationMessage
+        }
+    }
+}
