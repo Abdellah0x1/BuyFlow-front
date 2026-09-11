@@ -21,6 +21,7 @@ import { useAuthStore } from './store/authStore'
 import Checkout from './pages/payment/Checkout'
 import PaymentSuccess from './pages/payment/PaymentSuccess'
 import SellerMessages from './pages/seller/SellerMessages'
+import SellerAnalytics from './pages/seller/SellerAnalytics'
 import { EditProduct } from './pages/seller/SellerEditProduct'
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route path="products" element={<SellerProductsPage />} />
           <Route path="orders" element={<SellerOrders />} />
           <Route path="messages" element={<SellerMessages />} />
+          <Route path="analytics" element={<SellerAnalytics />} />
           <Route path="products/:id/edit" element={<EditProduct />} />
         </Route>
         {/* customer routes */}
