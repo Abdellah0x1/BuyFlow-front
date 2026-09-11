@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useSellerStore } from "@/store/seller";
 import { useSellerOrders } from "@/hooks/useSellerOrders";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -97,8 +97,8 @@ export default function SellerProfile() {
                         type="button"
                         onClick={isEditing ? handleCancel : () => setIsEditing(true)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium cursor-pointer transition-all ${isEditing
-                                ? "border border-red-200 text-red-600 hover:bg-red-50"
-                                : "bg-brand text-white hover:bg-brand/90"
+                            ? "border border-red-200 text-red-600 hover:bg-red-50"
+                            : "bg-brand text-white hover:bg-brand/90"
                             }`}
                     >
                         {isEditing ? (
@@ -125,8 +125,8 @@ export default function SellerProfile() {
                                 value={formData.username}
                                 onChange={handleChange}
                                 className={`transition-all duration-200 ${isEditing
-                                        ? "border-brand/30 focus:border-brand ring-brand/20"
-                                        : "bg-slate-50 border-gray-200 text-slate-700"
+                                    ? "border-brand/30 focus:border-brand ring-brand/20"
+                                    : "bg-slate-50 border-gray-200 text-slate-700"
                                     }`}
                             />
                         </div>
@@ -141,8 +141,8 @@ export default function SellerProfile() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 className={`transition-all duration-200 ${isEditing
-                                        ? "border-brand/30 focus:border-brand ring-brand/20"
-                                        : "bg-slate-50 border-gray-200 text-slate-700"
+                                    ? "border-brand/30 focus:border-brand ring-brand/20"
+                                    : "bg-slate-50 border-gray-200 text-slate-700"
                                     }`}
                             />
                         </div>
