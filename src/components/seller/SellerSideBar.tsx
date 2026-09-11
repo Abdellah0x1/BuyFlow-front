@@ -2,7 +2,7 @@ import { Sidebar, SidebarContent, SidebarGroup } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/store/authStore";
 import { Link, useLocation } from "react-router"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, BarChart3 } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, MessageSquare, LogOut, BarChart3, UserCircle } from "lucide-react";
 
 export function SellerSideBar() {
     const path = useLocation();
@@ -15,6 +15,7 @@ export function SellerSideBar() {
         { to: "/seller/products", name: "Products", icon: <Package className="h-5 w-5" />, isActive: path.pathname.includes("products") },
         { to: "/seller/analytics", name: "Analytics", icon: <BarChart3 className="h-5 w-5" />, isActive: path.pathname.includes("analytics") },
         { to: "/seller/messages", name: "Messages", icon: <MessageSquare className="h-5 w-5" />, isActive: path.pathname.includes("messages") },
+        { to: "/seller/profile", name: "Profile", icon: <UserCircle className="h-5 w-5" />, isActive: path.pathname.includes("profile") },
     ]
 
     return (
