@@ -10,6 +10,7 @@ import ErrorBoundary from "../Common/ErrorBoundary";
 export function Navbar() {
     const { isAuthenticated, user, logout } = useAuthStore();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [mobileLoginOpen, setMobileLoginOpen] = useState(false);
     const isMobile = useIsMobile();
 
     // Close mobile menu on route change / resize
@@ -120,11 +121,21 @@ export function Navbar() {
                             </button>
                         </div>
                     ) : (
-                        <ErrorBoundary>
-                            <LoginModal />
-                        </ErrorBoundary>
+                        <button
+                            onClick={() => { setMobileLoginOpen(true); setIsMobileMenuOpen(false); }}
+                            className="text-body-apple text-white/80 hover:text-white transition-colors text-left"
+                        >
+                            Login
+                        </button>
                     )}
                 </div>
+            )}
+
+            {/* Mobile Login Modal — rendered outside the dropdown so it persists when the menu closes */}
+            {isMobile && !isAuthenticated && (
+                <ErrorBoundary>
+                    <LoginModal externalOpen={mobileLoginOpen} onExternalOpenChange={setMobileLoginOpen} />
+                </ErrorBoundary>
             )}
         </header>
     );

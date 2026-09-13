@@ -9,15 +9,30 @@ import { LoginRequest } from "@/api/auth";
 import { Link } from "react-router";
 import { Spinner } from "../Common/Spinner";
 
-const LoginModal = () => {
+interface LoginModalProps {
+    externalOpen?: boolean;
+    onExternalOpenChange?: (open: boolean) => void;
+}
+
+const LoginModal = ({ externalOpen, onExternalOpenChange }: LoginModalProps = {}) => {
     const login = useAuthStore((state) => state.login);
-    const [open, setOpen] = React.useState(false);
+    const [internalOpen, setInternalOpen] = React.useState(false);
     const [loginData, setLoginData] = useState<LoginPayload>({
         email: "",
         password: "",
     })
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null)
+
+    const isControlled = externalOpen !== undefined;
+    const open = isControlled ? externalOpen : internalOpen;
+    const setOpen = (value: boolean) => {
+        if (isControlled && onExternalOpenChange) {
+            onExternalOpenChange(value);
+        } else {
+            setInternalOpen(value);
+        }
+    };
 
 
     async function handleSubmit(e: React.SubmitEvent) {
@@ -52,11 +67,14 @@ const LoginModal = () => {
 
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger asChild>
-                <button className="text-nav-link text-white/80 hover:text-white transition-colors">
-                    Login
-                </button>
-            </Dialog.Trigger>
+            {/* Only render the trigger button when not externally controlled */}
+            {!isControlled && (
+                <Dialog.Trigger asChild>
+                    <button className="text-nav-link text-white/80 hover:text-white transition-colors">
+                        Login
+                    </button>
+                </Dialog.Trigger>
+            )}
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 animate-in fade-in" />
                 <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-canvas rounded-[18px] border border-hairline p-8 w-[90vw] max-w-md z-50 animate-in fade-in zoom-in-95 duration-200">
