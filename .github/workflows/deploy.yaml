@@ -1,0 +1,46 @@
+name: Frontend ci/cd
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build
+              run: npm run build
+
+    deploy:
+        needs: build
+        if: github.event_name == 'push'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy frontend code to VPS
+              uses: appleboy/ssh-action@v1
+              with:
+                  host: ${{ secrets.VPS_HOST }}
+                  username: ${{ secrets.VPS_USER }}
+                  key: ${{ secrets.VPS_SSH_KEY }}
+                  script: |
+                      set -e
+                      cd /opt/spring-ecommerce/frontend
+                      git pull origin main
+                      sudo docker stop buyflow-front || true
+                      sudo docker rm buyflow-front || true
+                      sudo docker image build -t buyflow-front .
+                      sudo docker run -d --name buyflow-front -p 3000:80 buyflow-front
