@@ -12,6 +12,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNotifications } from "@/hooks/useNotificationStore";
+import { useNotificationSSE } from "@/hooks/useNotificationSSE";
 import { Button } from "../ui/button";
 
 import { useNotificationsStore } from "@/store/notificationStore";
@@ -22,6 +23,7 @@ export default function SellerLayout() {
     const hasCheckedAuth = useAuthStore(state => state.hasCheckedAuth);
     const { notifications, unreadCount, markAllRead } = useNotificationsStore();
     useNotifications()
+    useNotificationSSE()
 
     if (!hasCheckedAuth) {
         return <div className="flex min-h-screen items-center justify-center"><Spinner /></div>;
