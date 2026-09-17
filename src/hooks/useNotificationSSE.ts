@@ -12,7 +12,7 @@ export const useNotificationSSE = () => {
         const eventSource = new EventSource(`${baseUrl}/notifications/subscribe`, { withCredentials: true })
 
         eventSource.addEventListener('Connected', (event) => {
-            console.log("Connected to Notification SSE")
+            console.log(event.data)
         })
 
         eventSource.addEventListener('notification', event => {
